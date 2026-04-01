@@ -1,8 +1,12 @@
 <resources>
+    <!-- App label shown on the launcher and in the title area. -->
     <string name="app_name">CRYPTOGRAM</string>
 
-        <string name="welcome_to">WELCOME TO</string>
+    <!-- Small intro heading displayed above the main title. -->
+    <string name="welcome_to">WELCOME TO</string>
+    <!-- Main screen title used by the activity layout. -->
     <string name="cryptogram">CRYPTOGRAM</string>
+    <!-- Cipher number sequence shown under the title. -->
     <string name="cipher_numbers">1 8 5 7 9 6 3 8 2 4</string>
 
 

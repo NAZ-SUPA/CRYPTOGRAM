@@ -1,17 +1,21 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
+    <!-- Base application theme shared by all screens. -->
     <style name="Base.Theme.CRYPTOGRAM" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
+        <!-- Customize the light theme colors here if needed. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <!-- Activity theme alias that points to the base app theme. -->
     <style name="Theme.CRYPTOGRAM" parent="Base.Theme.CRYPTOGRAM" />
+
+    <!-- Title style for the "WELCOME TO" label. -->
     <style name="welcome_to">
         <item name="android:textSize">35sp</item>
         <item name="android:textColor">#B681FF</item>
         <item name="android:fontFamily">sans-serif-medium</item> </style>
 
 
+    <!-- Large brand style used for the main CRYPTOGRAM text. -->
     <style name="cryptogram">
         <item name="android:textSize">48sp</item>
         <item name="android:letterSpacing">0.04</item>
@@ -19,12 +23,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Smaller style used for the cipher number line. -->
     <style name="cipher_style">
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">#B681FF</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:letterSpacing">0.1</item> </style>
 
+    <!-- Supporting text style for any additional labels. -->
     <style name="some_id">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#B681FF</item>

@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Load the screen layout and then apply the custom text styling.
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         colorLetters();
@@ -30,15 +31,16 @@ public class MainActivity extends AppCompatActivity {
         // comment by copilot
     }
 
-    // Method for Design
+    // Highlight the matching characters in the cryptogram and cipher text.
     private void colorLetters() {
         TextView tv = findViewById(R.id.cryptogram);
-        String text = tv.getText().toString(); // gets "CRYPTOGRAM" from XML
+        String text = tv.getText().toString(); // Reads "CRYPTOGRAM" from strings.xml.
         TextView tv2 = findViewById(R.id.tv_cipher_numbers);
         String cipher = tv2.getText().toString();
 
         SpannableString spannable = new SpannableString(text);
 
+        // Keep the two R letters black so they stand out from the purple title.
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 1, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 7, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         spannable = new SpannableString(cipher);
 
+        // Match the same black emphasis for the corresponding cipher positions.
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 2, 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 14, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 

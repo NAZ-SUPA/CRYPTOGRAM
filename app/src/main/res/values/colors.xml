@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Neutral base colors used across text and backgrounds. -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray_light">#D9D9D9</color>
     <color name="bg_dark">#1E1E1E</color>
 
+    <!-- Accent colors used for highlights and warnings. -->
     <color name="accent_yellow">#FFFB00</color>
     <color name="main_blue">#351FC5</color>
     <color name="error_red">#FF3434</color>
 
+    <!-- Purple palette used for the cryptogram branding and typography. -->
     <color name="purple_light">#DBCAF2</color>
     <color name="purple_soft">#C8B3F6</color>
     <color name="purple_vibrant">#B681FF</color>
     <color name="purple_main">#8947E4</color>
     <color name="purple_pinkish">#CE74F2</color>
 
+    <!-- Supporting green tones for alternative UI accents. -->
     <color name="mint_green">#97E3CC</color>
     <color name="bright_green">#9CE270</color>
 </resources>

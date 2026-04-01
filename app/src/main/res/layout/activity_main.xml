@@ -10,6 +10,7 @@
     tools:layout_editor_absoluteX="-24dp"
     tools:layout_editor_absoluteY="134dp">
 
+    <!-- Welcome message shown above the main title. -->
     <TextView
         android:id="@+id/welcome_to"
         style="@style/welcome_to"
@@ -22,28 +23,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Left yellow background block placed behind the first highlighted R. -->
     <View
         android:id="@+id/rectangle_2"
         android:layout_width="32dp"
         android:layout_height="92dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:background="#FFFB00"
+        android:background="@color/accent_yellow"
         app:layout_constraintBottom_toBottomOf="@+id/cryptogram"
         app:layout_constraintStart_toStartOf="@+id/cryptogram"
         app:layout_constraintTop_toTopOf="@+id/cryptogram" />
 
+    <!-- Right yellow background block placed behind the second highlighted R. -->
     <View
         android:id="@+id/rectangle_3"
         android:layout_width="32dp"
         android:layout_height="92dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="77dp"
-        android:background="#FFFB00"
+        android:background="@color/accent_yellow"
         app:layout_constraintBottom_toBottomOf="@+id/cryptogram"
         app:layout_constraintEnd_toEndOf="@+id/cryptogram"
         app:layout_constraintTop_toTopOf="@+id/cryptogram" />
 
+    <!-- Main cryptogram title with the two R letters styled in code. -->
     <TextView
         android:id="@+id/cryptogram"
         style="@style/cryptogram"
@@ -58,12 +62,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_to" />
 
+    <!-- Cipher number line shown below the title. -->
     <TextView
         android:id="@+id/tv_cipher_numbers"
         style="@style/cipher_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-8dp"
+        android:layout_marginStart="-8dp"
         android:layout_marginTop="4dp"
         android:gravity="center"
         android:letterSpacing="0.245"

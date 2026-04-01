@@ -5,15 +5,75 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#303240"
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteX="-24dp"
+    tools:layout_editor_absoluteY="134dp">
 
     <TextView
+        android:id="@+id/welcome_to"
+        style="@style/welcome_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="200dp"
+        android:gravity="center"
+        android:text="@string/welcome_to"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/rectangle_2"
+        android:layout_width="32dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:background="#FFFB00"
+        app:layout_constraintBottom_toBottomOf="@+id/cryptogram"
+        app:layout_constraintStart_toStartOf="@+id/cryptogram"
+        app:layout_constraintTop_toTopOf="@+id/cryptogram" />
+
+    <View
+        android:id="@+id/rectangle_3"
+        android:layout_width="32dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="77dp"
+        android:background="#FFFB00"
+        app:layout_constraintBottom_toBottomOf="@+id/cryptogram"
+        app:layout_constraintEnd_toEndOf="@+id/cryptogram"
+        app:layout_constraintTop_toTopOf="@+id/cryptogram" />
+
+    <TextView
+        android:id="@+id/cryptogram"
+        style="@style/cryptogram"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/cryptogram"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcome_to" />
+
+    <TextView
+        android:id="@+id/tv_cipher_numbers"
+        style="@style/cipher_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:letterSpacing="0.245"
+        android:text="@string/cipher_numbers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cryptogram" />
+
+    <!-- comment by copilot -->
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

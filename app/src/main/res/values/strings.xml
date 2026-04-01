@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CRYPTOGRAM</string>
+
+        <string name="welcome_to">WELCOME TO</string>
+    <string name="cryptogram">CRYPTOGRAM</string>
+    <string name="cipher_numbers">1 8 5 7 9 6 3 8 2 4</string>
+
+
 </resources>

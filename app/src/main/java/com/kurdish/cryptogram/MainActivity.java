@@ -13,7 +13,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         });
         // comment by copilot
     }
+
+    // Method for Design
     private void colorLetters() {
         TextView tv = findViewById(R.id.cryptogram);
         String text = tv.getText().toString(); // gets "CRYPTOGRAM" from XML
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         SpannableString spannable = new SpannableString(text);
 
-        // Color index 1 (R) and index 8 (G) to yellow
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 1, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#000000")), 7, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dark rounded card used as the main menu panel behind the branding and chips. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="354dp"
+    android:height="279dp"
+    android:viewportWidth="354"
+    android:viewportHeight="279">
+
+    <path
+        android:fillColor="#1E1E1E"
+        android:pathData="M119,0 H235 C300.7,0 354,53.3 354,119 V160 C354,225.7 300.7,279 235,279 H119 C53.3,279 0,225.7 0,160 V119 C0,53.3 53.3,0 119,0 Z" />
+
+</vector>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Rounded call-to-action background used for the PLAY button on the menu. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="148dp"
+    android:height="66dp"
+    android:viewportWidth="148"
+    android:viewportHeight="66">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,0 H120 C135.5,0 148,12.5 148,28 V38 C148,53.5 135.5,66 120,66 H28 C12.5,66 0,53.5 0,38 V28 C0,12.5 12.5,0 28,0 Z" />
+</vector>

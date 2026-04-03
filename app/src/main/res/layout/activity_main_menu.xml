@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303240"
+    tools:context=".MainMenu">
+
+    <!--
+        Main menu layout:
+        - the top-left heart area shows the player's lives
+        - the center card groups the game branding and category chips
+        - the play and levels buttons drive the main navigation flow
+        - the top-right gear opens settings
+    -->
+
+    <!-- Top-right settings entry point for menu configuration actions. -->
+    <ImageButton
+        android:id="@+id/btn_settings_main"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+    <!-- Life indicator cluster: heart icon, capsule background, and text counters. -->
+    <View
+        android:id="@+id/life_background_capsule"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginEnd="-12dp"
+        android:background="@drawable/heart_rectangle"
+        app:layout_constraintBottom_toBottomOf="@+id/heart_life_1"
+        app:layout_constraintEnd_toEndOf="@+id/tv_full_lives"
+        app:layout_constraintStart_toStartOf="@+id/heart_life_1"
+        app:layout_constraintTop_toTopOf="@+id/heart_life_1" />
+
+    <ImageView
+        android:id="@+id/heart_life_1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:importantForAccessibility="no" android:src="@drawable/heart"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_full_lives"
+        style="@style/full"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:textColor="#000000"
+        android:text="@string/full"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@+id/heart_life_1"
+        app:layout_constraintTop_toTopOf="@+id/heart_life_1"
+        app:layout_constraintBottom_toBottomOf="@+id/heart_life_1"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/tv_life_count"
+        style="@style/some_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="@string/some_id"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/heart_life_1"
+        app:layout_constraintEnd_toEndOf="@+id/heart_life_1"
+        app:layout_constraintStart_toStartOf="@+id/heart_life_1"
+        app:layout_constraintTop_toTopOf="@+id/heart_life_1"
+        tools:ignore="SpUsage,TextSizeCheck" />
+
+    <!-- Central card that groups the game branding and menu choices. -->
+    <View
+        android:id="@+id/main_menu_card"
+        android:layout_width="354dp"
+        android:layout_height="279dp"
+        android:background="@drawable/black_rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.232" />
+
+    <!-- Decorative category chips presented as themed game tags. -->
+    <View
+        android:id="@+id/mint_decorative_capsule"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:background="@drawable/focus_rectangle"
+        android:clickable="false"
+        android:focusable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/main_menu_card"
+        app:layout_constraintEnd_toEndOf="@+id/main_menu_card"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="@+id/main_menu_card"
+        app:layout_constraintTop_toTopOf="@+id/main_menu_card"
+        app:layout_constraintVertical_bias="0.455" />
+
+    <TextView
+        android:id="@+id/tv_label_focus"
+        style="@style/focus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/focus"
+        android:fontFamily="@font/iceberg"
+        app:layout_constraintBottom_toBottomOf="@+id/mint_decorative_capsule"
+        app:layout_constraintEnd_toEndOf="@+id/mint_decorative_capsule"
+        app:layout_constraintStart_toStartOf="@+id/mint_decorative_capsule"
+        app:layout_constraintTop_toTopOf="@+id/mint_decorative_capsule" />
+
+    <View
+        android:id="@+id/green_decorative_capsule_2"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:background="@drawable/english_rectangle"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/mint_decorative_capsule"
+        app:layout_constraintEnd_toEndOf="@+id/main_menu_card"
+        app:layout_constraintStart_toEndOf="@+id/mint_decorative_capsule"
+        app:layout_constraintTop_toTopOf="@+id/mint_decorative_capsule"
+        android:layout_marginStart="10dp" />
+
+    <TextView
+        android:id="@+id/tv_label_english"
+        style="@style/english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/english"
+        android:fontFamily="@font/iceberg"
+        app:layout_constraintBottom_toBottomOf="@+id/green_decorative_capsule_2"
+        app:layout_constraintEnd_toEndOf="@+id/green_decorative_capsule_2"
+        app:layout_constraintStart_toStartOf="@+id/green_decorative_capsule_2"
+        app:layout_constraintTop_toTopOf="@+id/green_decorative_capsule_2" />
+
+    <View
+        android:id="@+id/purple_decorative_capsule"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:background="@drawable/puzzle_rectangle"
+        android:clickable="false"
+        app:layout_constraintTop_toBottomOf="@+id/mint_decorative_capsule"
+        app:layout_constraintStart_toStartOf="@+id/mint_decorative_capsule"
+        app:layout_constraintEnd_toEndOf="@+id/green_decorative_capsule_2"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:id="@+id/tv_label_puzzle"
+        style="@style/puzzle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/puzzle"
+        android:fontFamily="@font/iceberg"
+        app:layout_constraintBottom_toBottomOf="@+id/purple_decorative_capsule"
+        app:layout_constraintEnd_toEndOf="@+id/purple_decorative_capsule"
+        app:layout_constraintStart_toStartOf="@+id/purple_decorative_capsule"
+        app:layout_constraintTop_toTopOf="@+id/purple_decorative_capsule" />
+
+    <!-- Primary call-to-action button and secondary level-navigation button. -->
+    <ImageButton
+        android:id="@+id/btn_main_action"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="96dp"
+        android:background="@drawable/play_rectangle"
+        android:contentDescription="Main Action Button"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/purple_decorative_capsule"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/purple_decorative_capsule"
+        app:layout_constraintTop_toBottomOf="@+id/purple_decorative_capsule"
+        tools:ignore="HardcodedText,RedundantDescriptionCheck" />
+
+    <TextView
+        android:id="@+id/tv_label_play"
+        style="@style/play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/play"
+        android:fontFamily="@font/iceberg"
+        android:elevation="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_main_action"
+        app:layout_constraintEnd_toEndOf="@+id/btn_main_action"
+        app:layout_constraintStart_toStartOf="@+id/btn_main_action"
+        app:layout_constraintTop_toTopOf="@+id/btn_main_action" />
+
+
+    <ImageButton
+        android:id="@+id/btn_levels"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/levels_rectangle"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="@+id/btn_main_action"
+        app:layout_constraintStart_toStartOf="@+id/btn_main_action"
+        app:layout_constraintTop_toBottomOf="@+id/btn_main_action"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tv_label_levels"
+        style="@style/levels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/levels"
+        android:fontFamily="@font/iceberg"
+        android:elevation="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_levels"
+        app:layout_constraintEnd_toEndOf="@+id/btn_levels"
+        app:layout_constraintStart_toStartOf="@+id/btn_levels"
+        app:layout_constraintTop_toTopOf="@+id/btn_levels" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

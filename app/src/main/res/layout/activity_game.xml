@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303240"
+    tools:context=".Game"
+    tools:ignore="ContentDescription">
+
+    <!--
+        Game layout:
+        - top controls provide home and settings access
+        - the mistakes row tracks the player's remaining attempts
+        - the hint button is placed on the side for quick help
+        - the custom keyboard fills the bottom of the screen for letter input
+    -->
+
+    <View
+        android:id="@+id/home_bg_circle"
+        android:layout_width="52dp"
+        android:layout_height="54dp"
+        android:background="@drawable/home_rectagnle"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp" />
+
+    <ImageButton
+        android:id="@+id/btn_home"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/home"
+        android:contentDescription="@string/home_button_desc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <!-- Top-right settings entry point for menu configuration actions. -->
+    <ImageButton
+        android:id="@+id/btn_settings_main"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="14dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/settings_button_desc"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/tv_header_mistakes"
+        style="@style/mistakes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mistakes"
+        android:fontFamily="@font/iceberg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="12dp" />
+
+    <ImageView
+        android:id="@+id/iv_mistake_1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/circle_placeholder"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes"
+        app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
+        android:layout_marginTop="12dp"
+        app:layout_constraintHorizontal_chainStyle="packed"/>
+
+    <ImageView
+        android:id="@+id/iv_mistake_2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/circle_placeholder"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
+        app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes" />
+
+    <ImageView
+        android:id="@+id/iv_mistake_3"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="80dp"
+        android:src="@drawable/circle_placeholder"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes"
+        app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
+        android:layout_marginTop="12dp"
+        app:layout_constraintHorizontal_chainStyle="packed"/>
+
+    <ImageButton
+        android:id="@+id/btn_hint"
+        android:layout_width="52dp"
+        android:layout_height="67dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="200dp"
+        android:background="@drawable/hint_rectangle"
+        android:contentDescription="@string/hint_action"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_hint_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/hint"
+        android:contentDescription="@null"
+        android:importantForAccessibility="no"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_hint"
+        app:layout_constraintEnd_toEndOf="@+id/btn_hint"
+        app:layout_constraintStart_toStartOf="@+id/btn_hint"
+        app:layout_constraintTop_toTopOf="@+id/btn_hint" />
+
+    <LinearLayout
+        android:id="@+id/custom_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/key_background"
+        android:orientation="vertical"
+        android:padding="6dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_q" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_w" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_e" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_r" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_t"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_y" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_u" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_i" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_o" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_p" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="15dp">
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_a" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_s" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:text="@string/key_d"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_f" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_g" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_h"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_j" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_k" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_l" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                style="@style/KeyboardKey"
+                android:layout_weight="1.5"
+                android:background="@drawable/key_background_active"
+                android:text="@string/key_delete"
+                android:textSize="12sp" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_z" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_x" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_c" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:text="@string/key_v"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_b" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_n" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:background="@drawable/key_background_bold"
+                android:text="@string/key_m" />
+
+            <Button
+                style="@style/KeyboardKey"
+                android:layout_weight="1.5"
+                android:background="@drawable/key_background_active"
+                android:text="@string/key_enter"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,7 @@
 <resources>
+    <!-- Theme and text styles for the whole app: the base theme keeps a clean
+         Material 3 foundation, while the text styles control the branding used
+         on the intro screen and the menu screen. -->
     <!-- Base application theme shared by all screens. -->
     <style name="Base.Theme.CRYPTOGRAM" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize the light theme colors here if needed. -->
@@ -35,6 +38,86 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">#B681FF</item>
     </style>
+
+    <!-- Lives badge label style shown next to the heart icon. -->
+    <style name="full">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/inter_bold</item> </style>
+
+    <!-- Alternate title style used on the main menu card. -->
+    <style name="cryptogram2">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Menu chip label style for the first row of category text. -->
+    <style name="focus">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Matching chip label style for the second category text. -->
+    <style name="english">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Matching chip label style for the bottom category text. -->
+    <style name="puzzle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#000000</item> <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Emphasized CTA text style for action buttons (PLAY / LEVELS). -->
+    <style name="play">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#351FC5</item>
+        <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Reuses the same visual weight as PLAY to keep button hierarchy consistent. -->
+    <style name="levels">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#351FC5</item>
+        <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="mistakes">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">#FF3434</item>
+        <item name="android:fontFamily">@font/iceberg</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:letterSpacing">0.05</item> </style>
+
+    <style name="KeyboardKey">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">2dp</item>
+
+        <item name="android:background">@drawable/key_background_bold</item>
+        <item name="backgroundTint">@null</item>
+
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+
+        <item name="android:gravity">center</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+
 
 
 

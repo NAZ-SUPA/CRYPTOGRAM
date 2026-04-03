@@ -10,6 +10,14 @@
     tools:layout_editor_absoluteX="-24dp"
     tools:layout_editor_absoluteY="134dp">
 
+    <!--
+        Intro screen layout:
+        - shows a short welcome line
+        - centers the CRYPTOGRAM title and cipher hint
+        - uses yellow blocks behind the two R letters to mirror the code-based styling
+        - leaves the actual screen behavior to MainActivity
+    -->
+
     <!-- Welcome message shown above the main title. -->
     <TextView
         android:id="@+id/welcome_to"
@@ -77,8 +85,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cryptogram" />
 
-    <!-- comment by copilot -->
-
-
+    <!-- Root container intentionally stays simple; interactions are handled in MainActivity. -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

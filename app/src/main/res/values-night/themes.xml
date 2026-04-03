@@ -1,4 +1,6 @@
 <resources>
+    <!-- Dark-mode version of the shared app theme; it mirrors the light theme
+         structure so both appearances stay consistent across screens. -->
     <!-- Base application theme shared by all screens in dark mode. -->
     <style name="Base.Theme.CRYPTOGRAM" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize the dark theme colors here if needed. -->

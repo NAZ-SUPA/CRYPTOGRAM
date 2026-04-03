@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Application-wide configuration: icon, label, backup rules, and theme are
+         defined here so every screen shares the same app identity. -->
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,9 +12,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CRYPTOGRAM">
+        <!-- Secondary screens are declared first because they are launched from
+             the main menu rather than being direct entry points. -->
+        <activity
+            android:name=".Settings"
+            android:exported="false" />
+        <activity
+            android:name=".Levels"
+            android:exported="false" />
+        <activity
+            android:name=".Game"
+            android:exported="false" />
+        <activity
+            android:name=".MainMenu"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <!-- MainActivity is the launcher entry point and shows the intro screen
+                 before the app transitions into the rest of the project. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

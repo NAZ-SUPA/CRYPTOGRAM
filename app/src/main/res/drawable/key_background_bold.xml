@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Stronger key background used for most letter buttons to improve contrast. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#edebeb" />
+
+    <corners android:radius="8dp" />
+
+    <stroke
+        android:width="1dp"
+        android:color="#D1D5DB" />
+</shape>

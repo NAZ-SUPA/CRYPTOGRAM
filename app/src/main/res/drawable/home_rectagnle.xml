@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Circular home button background used at the top-left of the game screen. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="52dp"
+    android:height="54dp"
+    android:viewportWidth="52"
+    android:viewportHeight="54">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,0C40.4,0 52,11.6 52,26V28C52,42.4 40.4,54 26,54C11.6,54 0,42.4 0,28V26C0,11.6 11.6,0 26,0Z" />
+</vector>

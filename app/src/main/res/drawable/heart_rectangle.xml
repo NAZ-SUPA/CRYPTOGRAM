@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- White capsule background used behind the lives text in the main menu. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="104dp"
+    android:height="50dp"
+    android:viewportWidth="104"
+    android:viewportHeight="42">
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M21,0 H83 C94.6,0 104,9.4 104,21 V21 C104,32.6 94.6,42 83,42 H21 C9.4,42 0,32.6 0,21 V21 C0,9.4 9.4,0 21,0 Z" />
+
+</vector>

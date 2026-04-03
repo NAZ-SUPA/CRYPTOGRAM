@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Green category chip background used for the ENGLISH label in the main menu. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="148dp"
+    android:height="66dp"
+    android:viewportWidth="148"
+    android:viewportHeight="66">
+    <path
+        android:fillColor="#9CE270"
+        android:pathData="M33,0 H115 C133.2,0 148,14.8 148,33 V33 C148,51.2 133.2,66 115,66 H33 C14.8,66 0,51.2 0,33 V33 C0,14.8 14.8,0 33,0 Z" />
+</vector>

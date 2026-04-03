@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Purple rounded background used for the hint button on the game screen. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="52dp"
+    android:height="67dp"
+    android:viewportWidth="52"
+    android:viewportHeight="67">
+    <path
+        android:fillColor="#8947E4"
+        android:pathData="M18,0 H34 C43.9,0 52,8.1 52,18 V49 C52,58.9 43.9,67 34,67 H18 C8.1,67 0,58.9 0,49 V18 C0,8.1 8.1,0 18,0 Z" />
+</vector>

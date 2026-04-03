@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Color system for the app: neutral tones support the base UI, yellow is
+         used for the cryptogram highlight blocks, and purple defines the brand look. -->
     <!-- Neutral base colors used across text and backgrounds. -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

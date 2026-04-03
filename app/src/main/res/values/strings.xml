@@ -62,4 +62,16 @@
     <string name="settings_button_desc">Settings</string>
     <string name="mistake_indicator_desc">Mistake indicator</string>
 
+
+    <string name="settings_title">SETTINGS</string>
+    <string name="label_notifications">NOTIFICATIONS</string>
+    <string name="btn_on">ON</string>
+    <string name="btn_off">OFF</string>
+    <string name="btn_how_to_play">HOW TO PLAY</string>
+    <string name="select_font_size">SELECT FONT SIZE</string>
+    <string name="font_x1">T\n-\nx1</string>
+    <string name="font_x15">T\n-\nx1.5</string>
+    <string name="font_x2">T\n-\nx2</string>
+    <string name="btn_home">HOME</string>
+
 </resources>

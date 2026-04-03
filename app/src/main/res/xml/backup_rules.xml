@@ -1,4 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Backup policy for this app. Kept as template defaults for now because the
+   project does not persist custom user data that requires selective backup.
+-->
+<!--
    Sample backup rules file; uncomment and customize as necessary.
    See https://developer.android.com/guide/topics/data/autobackup
    for details.

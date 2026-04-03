@@ -9,7 +9,16 @@
     android:background="#303240"
     android:padding="24dp">
 
-    <!-- Title -->
+    <!--
+        Settings screen layout logic:
+        - title anchors the page identity
+        - notification segmented toggle uses toggle_on/toggle_off IDs
+        - how-to-play is a future help entry point
+        - font_box holds three preset buttons (x1, x1.5, x2)
+        - home button closes this activity and returns to the previous screen
+    -->
+
+    <!-- Main heading centered at the top of the screen. -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
@@ -23,15 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Notifications label -->
+    <!-- Notification section label aligned to the left to pair with the toggle capsule. -->
 
-    <!-- Notification toggle container -->
+    <!-- Capsule container for the ON/OFF segmented notification control. -->
+
     <TextView
         android:id="@+id/label_notif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="52dp"
         android:fontFamily="@font/iceberg"
         android:text="NOTIFICATIONS"
         android:textColor="#FFFFFF"
@@ -53,6 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/label_notif">
 
+        <!-- Horizontal two-option segment implemented using two equal-width buttons. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -102,7 +113,7 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- How to Play button -->
+    <!-- Secondary action button; click handling is currently a placeholder in Settings.java. -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_how_to_play"
         android:layout_width="300dp"
@@ -121,7 +132,7 @@
         app:layout_constraintTop_toBottomOf="@id/label_notif"
         tools:layout_editor_absoluteX="24dp" />
 
-    <!-- Font selection box -->
+    <!-- Card containing selectable font-size presets used by the Settings toggle logic. -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/font_box"
         android:layout_width="0dp"
@@ -153,6 +164,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
+            <!-- Three-button preset row; each button ID is used in Java single-select logic. -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -206,12 +218,12 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Home button -->
+    <!-- HOME action finishes Settings and returns to the previous activity. -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_back_home"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="148dp"
+        android:layout_height="66dp"
+        android:layout_marginBottom="250dp"
         android:fontFamily="@font/iceberg"
         android:text="HOME"
         android:textAllCaps="true"
@@ -221,6 +233,7 @@
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

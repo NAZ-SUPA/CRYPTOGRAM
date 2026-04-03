@@ -9,6 +9,15 @@
     android:background="#303240"
     tools:ignore="ContentDescription">
 
+    <!--
+        Levels screen layout logic:
+        - top-left home control returns to main menu
+        - top-right settings control opens app settings
+        - center title identifies the screen context
+        - 3x3 card grid provides level selection targets consumed by Levels.java
+    -->
+
+    <!-- Decorative background shape behind the home icon to improve tap discoverability. -->
     <View
         android:id="@+id/home_bg_circle"
         android:layout_width="52dp"
@@ -19,6 +28,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp" />
 
+    <!-- Home action button mapped in Levels.java to navigate back to main menu. -->
     <ImageButton
         android:id="@+id/btn_home"
         android:layout_width="45dp"
@@ -30,6 +40,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
+    <!-- Settings shortcut button mapped in Levels.java to open the Settings screen. -->
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -43,6 +54,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <!-- Screen title for the level picker page. -->
     <TextView
         android:id="@+id/tvLevelsTitle"
         android:layout_width="wrap_content"
@@ -57,6 +69,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+        Grid of selectable level cards.
+        Levels.java iterates over each child card and assigns a click listener,
+        then passes (index + 1) as selected_level into Game activity.
+    -->
     <GridLayout
         android:id="@+id/levels_grid"
         android:layout_width="wrap_content"

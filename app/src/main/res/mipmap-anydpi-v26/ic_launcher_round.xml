@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Round adaptive launcher icon entry point for launchers that prefer circular masks. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Uses the same art layers as the standard launcher icon for consistency. -->
     <background android:drawable="@drawable/ic_launcher_background" />
     <foreground android:drawable="@drawable/ic_launcher_foreground" />
     <monochrome android:drawable="@drawable/ic_launcher_foreground" />

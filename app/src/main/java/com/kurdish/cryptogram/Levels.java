@@ -1,5 +1,4 @@
 package com.kurdish.cryptogram;
-
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;

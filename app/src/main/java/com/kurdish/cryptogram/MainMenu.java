@@ -3,12 +3,12 @@ package com.kurdish.cryptogram;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
 
 // Main menu hub of the app: it presents the game options and routes the user to
 // Game, Levels, or Settings based on the selected button.

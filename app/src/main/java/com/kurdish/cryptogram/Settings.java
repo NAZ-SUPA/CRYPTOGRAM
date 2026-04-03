@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 // future configuration options and uses the same inset handling as the other screens.
 public class Settings extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

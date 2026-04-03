@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         colorLetters();
 
+
         // The Handler logic keeps the splash screen visible briefly before moving on.
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             // Navigate to the next screen after the short delay.

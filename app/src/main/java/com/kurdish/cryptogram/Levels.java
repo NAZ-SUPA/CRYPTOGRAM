@@ -1,5 +1,9 @@
 package com.kurdish.cryptogram;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,8 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-// Levels screen placeholder: it uses the shared app theme and reserves space for
-// future level-selection content while keeping the window insets consistent.
+// Levels screen: handles navigation from top buttons and level selection cards.
 public class Levels extends AppCompatActivity {
 
     @Override
@@ -23,5 +26,31 @@ public class Levels extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Home returns to the main menu.
+        ImageButton btnHome = findViewById(R.id.btn_home);
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(Levels.this, MainMenu.class);
+            startActivity(intent);
+        });
+
+        // Settings opens app settings from the levels screen.
+        ImageButton btnSettings = findViewById(R.id.btn_settings_main);
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(Levels.this, Settings.class);
+            startActivity(intent);
+        });
+
+        // Every card inside the 3x3 grid is treated as a level button.
+        GridLayout levelsGrid = findViewById(R.id.levels_grid);
+        for (int i = 0; i < levelsGrid.getChildCount(); i++) {
+            final int selectedLevel = i + 1;
+            View card = levelsGrid.getChildAt(i);
+            card.setOnClickListener(v -> {
+                Intent intent = new Intent(Levels.this, Game.class);
+                intent.putExtra("selected_level", selectedLevel);
+                startActivity(intent);
+            });
+        }
     }
 }

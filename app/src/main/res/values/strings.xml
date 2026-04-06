@@ -1,34 +1,37 @@
 <resources>
-    <!-- Central text resources for the project: the intro screen uses the title
-         and cipher strings, while the menu screen reuses the remaining labels. -->
-    <!-- App label shown on the launcher and in the title area. -->
+    <!--
+        Central String Repository:
+        All user-facing text is defined here to support localization,
+        easier maintenance, and accessibility.
+    -->
+
+    <!-- App Identity -->
     <string name="app_name">CRYPTOGRAM</string>
 
-    <!-- Small intro heading displayed above the main title. -->
+    <!-- Intro / Splash Screen -->
     <string name="welcome_to">WELCOME TO</string>
-    <!-- Main screen title used by the activity layout and menu card. -->
     <string name="cryptogram">CRYPTOGRAM</string>
-    <!-- Cipher number sequence shown under the title. -->
     <string name="cipher_numbers">1 8 5 7 9 6 3 8 2 4</string>
 
-    <!-- Lives badge text displayed beside the heart icon. -->
+    <!-- Heart / Life System -->
     <string name="full">FULL</string>
-    <!-- Default life count shown inside the heart indicator. -->
-    <string name="some_id">5</string>
+    <string name="some_id">4</string>
 
-    <!-- Category labels rendered inside decorative menu capsules. -->
+    <!-- Main Menu Category Labels (Decorative) -->
     <string name="focus">FOCUS</string>
     <string name="english">ENGLISH</string>
     <string name="puzzle">PUZZLE</string>
 
-    <!-- Button labels for the main menu actions. -->
+    <!-- Navigation Actions -->
     <string name="play">PLAY</string>
-
     <string name="levels">LEVELS</string>
+    <string name="btn_home">HOME</string>
 
+    <!-- Game Screen Labels -->
     <string name="mistakes">MISTAKES</string>
+    <string name="hint_action">Get Hint</string>
 
-    <!-- Game keyboard labels and accessibility text. -->
+    <!-- Keyboard Keys: QWERTY Layout -->
     <string name="key_q">Q</string>
     <string name="key_w">W</string>
     <string name="key_e">E</string>
@@ -57,21 +60,23 @@
     <string name="key_n">N</string>
     <string name="key_m">M</string>
     <string name="key_enter">ENTER</string>
-    <string name="hint_action">Get Hint</string>
-    <string name="home_button_desc">Home</string>
-    <string name="settings_button_desc">Settings</string>
-    <string name="mistake_indicator_desc">Mistake indicator</string>
 
+    <!-- Accessibility / Content Descriptions -->
+    <string name="home_button_desc">Navigate to home screen</string>
+    <string name="settings_button_desc">Open settings menu</string>
+    <string name="mistake_indicator_desc">Mistake status indicator</string>
 
+    <!-- Settings Screen Labels -->
     <string name="settings_title">SETTINGS</string>
     <string name="label_notifications">NOTIFICATIONS</string>
     <string name="btn_on">ON</string>
     <string name="btn_off">OFF</string>
     <string name="btn_how_to_play">HOW TO PLAY</string>
     <string name="select_font_size">SELECT FONT SIZE</string>
+
+    <!-- Font Size Presets -->
     <string name="font_x1">T\n-\nx1</string>
     <string name="font_x15">T\n-\nx1.5</string>
     <string name="font_x2">T\n-\nx2</string>
-    <string name="btn_home">HOME</string>
 
 </resources>

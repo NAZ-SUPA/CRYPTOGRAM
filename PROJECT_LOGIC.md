@@ -1,73 +1,113 @@
 # Cryptogram Project Logic
 
-This document explains how the app is structured and how each major file participates in the runtime flow.
+This document provides a detailed comment-style explanation of the current project structure and the recent changes that were made across the app.
 
-## 1) App Flow (High Level)
+## 1) Runtime Flow (Detailed)
 
-1. `MainActivity` launches first as the app entry point.
-2. After a short splash delay, it opens `MainMenu`.
-3. `MainMenu` routes to:
-   - `Game` (play screen)
-   - `Levels` (level chooser)
-   - `Settings` (app options)
-4. `Levels` opens `Game` with `selected_level` extra.
-5. `Settings` currently updates visual toggle state only (not persisted yet).
+1. `MainActivity` launches first and renders the intro branding screen.
+2. `MainActivity` highlights specific letters/numbers and waits ~2 seconds.
+3. App navigates to `MainMenu`.
+4. `MainMenu` acts as the navigation hub (`Game`, `Levels`, `Settings`) and refreshes heart/timer UI in `onResume()`.
+5. `Levels` reads unlocked progress from shared preferences and blocks locked levels.
+6. `Game` currently handles top-level navigation while layout/UI scaffolding is prepared for gameplay logic.
+7. `Settings` applies local visual toggle state (notification and font-size groups); persistence is a planned next step.
 
-## 2) Java Activity Logic
+## 2) Detailed Change Notes by Java File
 
-- `app/src/main/java/com/kurdish/cryptogram/MainActivity.java`
-  - Shows intro branding screen.
-  - Colors specific letters and matching cipher numbers.
-  - Uses `Handler` delay before navigating to `MainMenu`.
+### `app/src/main/java/com/kurdish/cryptogram/MainActivity.java`
+- Added clearer intro/splash flow comments around startup behavior.
+- Added/kept delay-based navigation to `MainMenu` using `Handler(Looper.getMainLooper()).postDelayed(...)`.
+- Added comments for the cryptogram text styling logic in `colorLetters()`.
+- Highlighted two `R` characters and corresponding cipher positions via `SpannableString` spans.
+- Clarified edge-to-edge inset handling to prevent status/nav bar overlap.
 
-- `app/src/main/java/com/kurdish/cryptogram/MainMenu.java`
-  - Main navigation hub.
-  - Buttons launch `Game`, `Levels`, and `Settings`.
+### `app/src/main/java/com/kurdish/cryptogram/MainMenu.java`
+- Main navigation paths are documented in detail (`Play`, `Levels`, `Settings`).
+- Heart regeneration logic is fully documented:
+  - reads `heart_count` + `Heart_Renew_Start_Time` from `SharedPreferences`
+  - awards missed hearts while app was closed
+  - caps hearts at 5
+  - saves updated values and resets timer marker when full
+- UI refresh flow is centralized in `refreshHeartUI()`.
+- Countdown logic is documented in `startUiTimer(...)`, including safety refresh when timer reaches/passes zero.
+- Timer cancellation in `onStop()` is documented to avoid background leaks/duplicate timers.
 
-- `app/src/main/java/com/kurdish/cryptogram/Game.java`
-  - Hosts play UI and keyboard layout.
-  - Currently handles top navigation only (Home and Settings).
+### `app/src/main/java/com/kurdish/cryptogram/Levels.java`
+- Added comments for level-grid selection behavior.
+- Added progress read from `SharedPreferences("game_progress")` (`unlocked_level`).
+- Locked levels are visually dimmed and prevented from opening.
+- Allowed levels navigate to `Game` and pass `selected_level` as intent extra.
+- Home/settings button routes are documented.
 
-- `app/src/main/java/com/kurdish/cryptogram/Levels.java`
-  - Binds click listeners to each card in `levels_grid`.
-  - Passes level number to `Game` as `selected_level`.
+### `app/src/main/java/com/kurdish/cryptogram/Game.java`
+- Added comments for screen purpose and current scope.
+- Added comments around edge-to-edge/system inset handling.
+- Documented navigation actions for home and settings buttons.
 
-- `app/src/main/java/com/kurdish/cryptogram/Settings.java`
-  - Handles ON/OFF toggle visual state.
-  - Handles font size preset visual state (`x1`, `x1.5`, `x2`).
-  - `HOME` button closes activity with `finish()`.
+### `app/src/main/java/com/kurdish/cryptogram/Settings.java`
+- Added comments for segmented notification toggle behavior (single selected option).
+- Added comments for font-size preset selection group (`x1`, `x1.5`, `x2`).
+- Added comments for HOME return flow (`finish()`) and how-to-play placeholder hook.
 
-## 3) Layout Logic
+## 3) Detailed Change Notes by Layout File
 
-- `activity_main.xml`: intro UI (welcome text, cryptogram title, cipher line).
-- `activity_main_menu.xml`: life chip, branding card, category chips, play/levels buttons.
-- `activity_game.xml`: top controls, mistakes indicators, hint action, custom keyboard.
-- `activity_levels.xml`: home/settings shortcuts and 3x3 level grid.
-- `activity_settings.xml`: notification segmented toggle, help button, font-size card, home button.
+### `app/src/main/res/layout/activity_main.xml`
+- Added structural comments for intro screen composition.
+- Added yellow background block views behind the two highlighted `R` positions in the title.
+- Documented relationship between static layout highlights and dynamic text coloring from `MainActivity`.
 
-## 4) Resource Logic
+### `app/src/main/res/layout/activity_main_menu.xml`
+- Added section comments for heart display, branding card, category chips, and action buttons.
+- Documented top-right settings action and primary/secondary CTA flow.
 
-- `res/values/strings.xml`
-  - Central text source for labels, keyboard keys, button captions, and accessibility strings.
+### `app/src/main/res/layout/activity_levels.xml`
+- Added comments for home/settings shortcuts and title.
+- Documented how the 3x3 `GridLayout` is consumed by `Levels.java`.
+- Clarified level-card purpose and interaction mapping.
 
-- `res/values/colors.xml`
-  - Shared color palette for branding, highlights, and base UI tones.
+### `app/src/main/res/layout/activity_game.xml`
+- Added comments for top controls, mistakes indicators, hint action, and keyboard area.
+- Documented the custom keyboard as a staged input UI scaffold for gameplay.
 
-- `res/values/themes.xml` and `res/values-night/themes.xml`
-  - App-wide Material theme and custom text styles for repeated UI patterns.
+### `app/src/main/res/layout/activity_settings.xml`
+- Added detailed comments for screen sections:
+  - notification segmented toggle
+  - how-to-play button
+  - font-size card/presets
+  - home button
+- Documented layout tuning updates (font-size card width behavior and ON/OFF block horizontal position adjustments).
 
-- `res/drawable/*.xml`
-  - Reusable shape/vector assets for cards, chips, buttons, and keyboard backgrounds.
+## 4) Detailed Change Notes by Resource File
 
-## 5) Manifest + App Configuration
+### `app/src/main/res/values/strings.xml`
+- Added grouping comments for intro labels, menu labels, game keys, accessibility text, and settings labels.
+- Clarified usage intent for important strings used by multiple screens.
 
-- `app/src/main/AndroidManifest.xml`
-  - Registers all activities and marks `MainActivity` as launcher.
-  - Declares app icon, label, backup/data extraction config, and theme.
+### `app/src/main/res/values/colors.xml`
+- Added palette comments to explain role by group (base neutrals, accent colors, brand purples, supporting greens).
 
-## 6) Current Functional Gaps (Expected)
+### `app/src/main/res/values/themes.xml`
+- Added style-level comments describing where each text/button style is used.
+- Clarified base theme aliasing and keyboard key style intent.
 
-- Settings choices are not persisted yet.
-- Game screen does not yet apply `selected_level` to gameplay state.
-- How-to-play button is currently a TODO hook.
+## 5) Manifest and Navigation Safety
 
+### `app/src/main/AndroidManifest.xml`
+- Added comments explaining app-level config and why activity declarations are structured as they are.
+- Clarified launcher responsibility (`MainActivity`) and secondary activity roles.
+
+## 6) Known Functional Status (Current)
+
+- `Levels` lock/unlock gating is active based on stored progress.
+- `MainMenu` heart timer/catch-up logic is active.
+- `Settings` currently updates visual state only (not yet persisted).
+- `Game` currently focuses on navigation and UI structure; gameplay wiring remains incremental.
+
+## 7) Why the Levels Button Previously Could Close the App
+
+Typical causes in this project context:
+- `Levels` activity was not declared correctly in manifest (now declared).
+- Crash from missing/mismatched view IDs in `activity_levels.xml` or `Levels.java`.
+- Runtime exceptions in level-grid iteration or intent navigation paths.
+
+The current code and manifest structure include the required declarations and IDs for normal navigation flow.

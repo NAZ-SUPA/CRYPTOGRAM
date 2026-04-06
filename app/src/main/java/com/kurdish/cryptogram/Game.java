@@ -10,37 +10,47 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-// Game screen that keeps the custom keyboard visible and exposes quick navigation
-// back to the menu or forward into the app settings.
+/**
+ * Game Activity:
+ * - This is the core screen where the cryptogram solving happens.
+ * - Current Scope: Manages the game board UI, custom keyboard display, and navigation.
+ * - Future Logic: Will include the cipher-to-letter mapping, input validation, 
+ *   and mistake tracking state.
+ */
 public class Game extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Apply the shared edge-to-edge layout and load the game board screen.
+        
+        // UI INITIALIZATION LOGIC:
+        // Enable Edge-to-Edge to provide an immersive gameplay experience.
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_game);
-        // Keep the content clear of system bars on devices with gesture navigation.
+        
+        // SYSTEM INSET LOGIC:
+        // Ensure the game UI (especially the top controls and bottom keyboard) 
+        // does not overlap with system status bars or the navigation "pill".
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Home returns to the main menu so the player can pick another screen.
+        // NAVIGATION LOGIC - HOME:
+        // The player can exit the game session and return to the main menu at any time.
         ImageButton btnHome = findViewById(R.id.btn_home);
-
         btnHome.setOnClickListener(v -> {
-            // Navigate back to the main menu from the game screen.
+            // Explicitly return to MainMenu.
             Intent intent = new Intent(Game.this, MainMenu.class);
             startActivity(intent);
+            // Optional: Add a confirmation dialog here in future to prevent accidental exit.
         });
 
-        // Settings opens the app's configuration screen from inside the game.
+        // NAVIGATION LOGIC - SETTINGS:
+        // Allows the player to adjust settings (like font size) mid-game.
         ImageButton btnSetting = findViewById(R.id.btn_settings_main);
-
         btnSetting.setOnClickListener(v -> {
-            // Open the app settings screen.
             Intent intent = new Intent(Game.this, Settings.class);
             startActivity(intent);
         });

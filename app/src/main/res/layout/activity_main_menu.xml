@@ -9,14 +9,14 @@
     tools:context=".MainMenu">
 
     <!--
-        Main menu layout:
-        - the top-left heart area shows the player's lives
-        - the center card groups the game branding and category chips
-        - the play and levels buttons drive the main navigation flow
-        - the top-right gear opens settings
+        Main Menu Navigation Hub Logic:
+        - This screen serves as the central jumping-off point for all major app features.
+        - @id/life_background_capsule: Visual container for the heart system.
+        - @id/heart_life_1: Icon representing the player's lives.
+        - @id/tv_life_count: Displays current hearts (managed by MainMenu.java heart logic).
+        - @id/tv_full_lives: Displays a countdown timer or "Full" status (managed by MainMenu.java UI timer).
     -->
 
-    <!-- Top-right settings entry point for menu configuration actions. -->
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -26,11 +26,12 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_settings"
+        android:contentDescription="@string/settings_button_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
-    <!-- Life indicator cluster: heart icon, capsule background, and text counters. -->
+    <!-- Life indicator cluster UI Logic -->
     <View
         android:id="@+id/life_background_capsule"
         android:layout_width="0dp"
@@ -49,7 +50,8 @@
         android:layout_height="60dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
-        android:importantForAccessibility="no" android:src="@drawable/heart"
+        android:importantForAccessibility="no"
+        android:src="@drawable/heart"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +71,6 @@
 
     <TextView
         android:id="@+id/tv_life_count"
-        style="@style/some_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="2dp"
@@ -83,7 +84,10 @@
         app:layout_constraintTop_toTopOf="@+id/heart_life_1"
         tools:ignore="SpUsage,TextSizeCheck" />
 
-    <!-- Central card that groups the game branding and menu choices. -->
+    <!--
+        Branding Card Logic:
+        - Encapsulates decorative category chips that communicate the app's genre.
+    -->
     <View
         android:id="@+id/main_menu_card"
         android:layout_width="354dp"
@@ -96,7 +100,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.232" />
 
-    <!-- Decorative category chips presented as themed game tags. -->
+    <!--
+        Category Chips:
+        - Non-interactive visual labels to provide context about the game types.
+    -->
     <View
         android:id="@+id/mint_decorative_capsule"
         android:layout_width="148dp"
@@ -170,20 +177,25 @@
         app:layout_constraintStart_toStartOf="@+id/purple_decorative_capsule"
         app:layout_constraintTop_toTopOf="@+id/purple_decorative_capsule" />
 
-    <!-- Primary call-to-action button and secondary level-navigation button. -->
+    <!--
+        Primary Action Buttons Logic:
+        - @id/btn_main_action: Navigates to the Game activity.
+        - @id/btn_levels: Navigates to the Levels activity.
+        - Both buttons are placed for easy thumb access.
+    -->
     <ImageButton
         android:id="@+id/btn_main_action"
         android:layout_width="148dp"
         android:layout_height="66dp"
         android:layout_marginTop="96dp"
         android:background="@drawable/play_rectangle"
-        android:contentDescription="Main Action Button"
+        android:contentDescription="@string/play"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="@+id/purple_decorative_capsule"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/purple_decorative_capsule"
         app:layout_constraintTop_toBottomOf="@+id/purple_decorative_capsule"
-        tools:ignore="HardcodedText,RedundantDescriptionCheck" />
+        tools:ignore="RedundantDescriptionCheck" />
 
     <TextView
         android:id="@+id/tv_label_play"
@@ -193,6 +205,7 @@
         android:text="@string/play"
         android:fontFamily="@font/iceberg"
         android:elevation="12dp"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="@+id/btn_main_action"
         app:layout_constraintEnd_toEndOf="@+id/btn_main_action"
         app:layout_constraintStart_toStartOf="@+id/btn_main_action"
@@ -205,11 +218,12 @@
         android:layout_height="66dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/levels_rectangle"
+        android:contentDescription="@string/levels"
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="@+id/btn_main_action"
         app:layout_constraintStart_toStartOf="@+id/btn_main_action"
         app:layout_constraintTop_toBottomOf="@+id/btn_main_action"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/tv_label_levels"
@@ -219,6 +233,7 @@
         android:text="@string/levels"
         android:fontFamily="@font/iceberg"
         android:elevation="12dp"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="@+id/btn_levels"
         app:layout_constraintEnd_toEndOf="@+id/btn_levels"
         app:layout_constraintStart_toStartOf="@+id/btn_levels"

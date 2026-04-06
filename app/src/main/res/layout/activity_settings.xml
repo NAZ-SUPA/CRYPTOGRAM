@@ -10,32 +10,32 @@
     android:padding="24dp">
 
     <!--
-        Settings screen layout logic:
-        - title anchors the page identity
-        - notification segmented toggle uses toggle_on/toggle_off IDs
-        - how-to-play is a future help entry point
-        - font_box holds three preset buttons (x1, x1.5, x2)
-        - home button closes this activity and returns to the previous screen
+        Settings Layout Logic:
+        - This screen manages application-wide preferences.
+        - @id/tv_title: The primary header for the settings context.
+        - @id/notif_container: Implements a custom segmented toggle for notifications.
+        - @id/font_box: Groups font-size scaling options into a cohesive card.
     -->
 
-    <!-- Main heading centered at the top of the screen. -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:fontFamily="@font/iceberg"
-        android:text="SETTINGS"
+        android:text="@string/settings_title"
         android:textColor="#FFFFFF"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Notification section label aligned to the left to pair with the toggle capsule. -->
-
-    <!-- Capsule container for the ON/OFF segmented notification control. -->
-
+    <!--
+        Notification Toggle Section Logic:
+        - This area allows the user to enable or disable push/in-game notifications.
+        - The segmented control (MaterialCardView + LinearLayout) is visually toggled
+          in Settings.java by updating the 'isSelected' property of the buttons.
+    -->
     <TextView
         android:id="@+id/label_notif"
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="52dp"
         android:fontFamily="@font/iceberg"
-        android:text="NOTIFICATIONS"
+        android:text="@string/label_notifications"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/label_notif">
 
-        <!-- Horizontal two-option segment implemented using two equal-width buttons. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -79,14 +78,13 @@
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
-                android:text="ON"
+                android:text="@string/btn_on"
                 android:textAllCaps="true"
                 android:textColor="#303240"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:backgroundTint="#D1C4E9"
-                app:cornerRadius="0dp"
-                tools:ignore="HardcodedText" />
+                app:cornerRadius="0dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle_off"
@@ -98,7 +96,7 @@
                 android:insetTop="0dp"
                 android:insetRight="0dp"
                 android:insetBottom="0dp"
-                android:text="OFF"
+                android:text="@string/btn_off"
                 android:textAllCaps="true"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
@@ -107,6 +105,7 @@
                 app:cornerRadius="0dp"
                 tools:ignore="TouchTargetSizeCheck" />
 
+            <!-- Vertical divider for visual separation -->
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
@@ -115,14 +114,17 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Secondary action button; click handling is currently a placeholder in Settings.java. -->
+    <!--
+        Tutorial / Help Button:
+        - Centrally located to provide the user with instructions on how to play the game.
+    -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_how_to_play"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="35dp"
         android:fontFamily="@font/iceberg"
-        android:text="HOW TO PLAY"
+        android:text="@string/btn_how_to_play"
         android:textAllCaps="true"
         android:textColor="#3F51B5"
         android:textSize="22sp"
@@ -131,10 +133,14 @@
         app:cornerRadius="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label_notif"
-        tools:layout_editor_absoluteX="24dp" />
+        app:layout_constraintTop_toBottomOf="@id/label_notif" />
 
-    <!-- Card containing selectable font-size presets used by the Settings toggle logic. -->
+    <!--
+        Font Size Configuration Card Logic:
+        - Encapsulates the font-size selection UI.
+        - The use of a MaterialCardView provides a clean, white background that makes
+          the control group stand out from the dark theme.
+    -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/font_box"
         android:layout_width="0dp"
@@ -147,8 +153,7 @@
         app:cardElevation="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_how_to_play"
-        tools:layout_editor_absoluteX="24dp">
+        app:layout_constraintTop_toBottomOf="@id/btn_how_to_play">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -161,12 +166,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/iceberg"
-                android:text="SELECT FONT SIZE"
+                android:text="@string/select_font_size"
                 android:textColor="#3F51B5"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <!-- Three-button preset row; each button ID is used in Java single-select logic. -->
+            <!-- Row for the scaling presets: x1, x1.5, x2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +187,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:padding="0dp"
-                    android:text="T\n-\nx1"
+                    android:text="@string/font_x1"
                     android:textColor="#3F51B5"
                     android:textSize="16sp"
                     app:backgroundTint="#D1C4E9"
@@ -197,7 +202,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:padding="0dp"
-                    android:text="T\n-\nx1.5"
+                    android:text="@string/font_x15"
                     android:textColor="#3F51B5"
                     android:textSize="18sp"
                     app:backgroundTint="@android:color/transparent"
@@ -211,7 +216,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:padding="0dp"
-                    android:text="T\n-\nx2"
+                    android:text="@string/font_x2"
                     android:textColor="#3F51B5"
                     android:textSize="22sp"
                     app:backgroundTint="@android:color/transparent"
@@ -220,14 +225,17 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- HOME action finishes Settings and returns to the previous activity. -->
+    <!--
+        Navigation Button Logic:
+        - Returns the user to the previous screen (Home/Levels/Game).
+    -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_back_home"
         android:layout_width="148dp"
         android:layout_height="66dp"
         android:layout_marginBottom="250dp"
         android:fontFamily="@font/iceberg"
-        android:text="HOME"
+        android:text="@string/btn_home"
         android:textAllCaps="true"
         android:textColor="#3F51B5"
         android:textSize="20sp"

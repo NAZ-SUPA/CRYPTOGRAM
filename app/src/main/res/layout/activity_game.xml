@@ -6,15 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#303240"
-    tools:context=".Game"
-    tools:ignore="ContentDescription">
+    tools:context=".Game">
 
     <!--
-        Game layout:
-        - top controls provide home and settings access
-        - the mistakes row tracks the player's remaining attempts
-        - the hint button is placed on the side for quick help
-        - the custom keyboard fills the bottom of the screen for letter input
+        Navigation & Header UI Logic:
+        - The screen is divided into a top navigation bar, a central status area, and a bottom input area.
+        - @id/home_bg_circle: Provides a visual anchor for the home button.
+        - @id/btn_home: Triggers navigation back to the MainMenu activity.
+        - @id/btn_settings_main: Shortcut to the Settings activity for mid-game configuration.
     -->
 
     <View
@@ -22,8 +21,6 @@
         android:layout_width="52dp"
         android:layout_height="54dp"
         android:background="@drawable/home_rectagnle"
-        android:contentDescription="@null"
-        android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="8dp"
@@ -39,9 +36,8 @@
         android:contentDescription="@string/home_button_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck" />
 
-    <!-- Top-right settings entry point for menu configuration actions. -->
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -50,12 +46,17 @@
         android:layout_marginEnd="14dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
-        android:contentDescription="@string/settings_button_desc"
         android:src="@drawable/ic_settings"
+        android:contentDescription="@string/settings_button_desc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+        Mistake Tracking System:
+        - Displays the current mistake count out of a maximum of 3.
+        - Indicators (iv_mistake_1-3) change state (e.g., from @drawable/circle_placeholder to @drawable/cross)
+          when the user makes an incorrect guess.
+    -->
     <TextView
         android:id="@+id/tv_header_mistakes"
         style="@style/mistakes"
@@ -73,12 +74,10 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/circle_placeholder"
-        android:contentDescription="@null"
-        android:importantForAccessibility="no"
+        android:contentDescription="@string/mistake_indicator_desc"
         app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes"
         app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
-        android:layout_marginTop="12dp"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        android:layout_marginTop="12dp" />
 
     <ImageView
         android:id="@+id/iv_mistake_2"
@@ -87,9 +86,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/circle_placeholder"
-        android:contentDescription="@null"
-        android:importantForAccessibility="no"
-        app:layout_constraintHorizontal_chainStyle="packed"
+        android:contentDescription="@string/mistake_indicator_desc"
         app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
         app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes" />
 
@@ -99,19 +96,23 @@
         android:layout_height="30dp"
         android:layout_marginStart="80dp"
         android:src="@drawable/circle_placeholder"
-        android:contentDescription="@null"
-        android:importantForAccessibility="no"
+        android:contentDescription="@string/mistake_indicator_desc"
         app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes"
         app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
-        android:layout_marginTop="12dp"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        android:layout_marginTop="12dp" />
+
+    <!--
+        Hint & Utility Logic:
+        - Floating action area for hints.
+        - The button is elevated to signify its "overlay" role on top of the game board.
+    -->
 
     <ImageButton
         android:id="@+id/btn_hint"
         android:layout_width="52dp"
         android:layout_height="67dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="196dp"
         android:background="@drawable/hint_rectangle"
         android:contentDescription="@string/hint_action"
         android:elevation="8dp"
@@ -123,191 +124,83 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@drawable/hint"
-        android:contentDescription="@null"
-        android:importantForAccessibility="no"
         android:elevation="10dp"
+        android:importantForAccessibility="no"
         app:layout_constraintBottom_toBottomOf="@+id/btn_hint"
         app:layout_constraintEnd_toEndOf="@+id/btn_hint"
         app:layout_constraintStart_toStartOf="@+id/btn_hint"
         app:layout_constraintTop_toTopOf="@+id/btn_hint" />
 
+    <!--
+        Custom Input Keyboard Logic:
+        - This provides the primary interaction for solving the cryptogram.
+        - Buttons are styled via @style/KeyboardKey for consistency.
+        - Special keys (DEL, ENT) are wider (weight 1.5) and use a distinct background.
+        - Text size is adjusted to 11sp to meet accessibility minimums while fitting complex labels.
+    -->
     <LinearLayout
         android:id="@+id/custom_keyboard"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/key_background"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="6dp"
+        android:padding="4dp"
+        android:background="#D1D5DB"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_q" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_w" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_e" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_r" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_t"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_y" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_u" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_i" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_o" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_p" />
+        <!-- Row 1: Character inputs Q through P -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <Button style="@style/KeyboardKey" android:text="@string/key_q" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_w" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_e" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_r" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_t" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_y" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_u" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_i" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_o" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_p" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="15dp">
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_a" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_s" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:text="@string/key_d"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_f" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_g" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_h"
-                tools:ignore="TextContrastCheck" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_j" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_k" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_l" />
+        <!-- Row 2: Character inputs A through L with horizontal padding for centering -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="15dp">
+            <Button style="@style/KeyboardKey" android:text="@string/key_a" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_s" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_d" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_f" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_g" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_h" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_j" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_k" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_l" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
+        <!-- Row 3: Utility keys and remaining character inputs -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
             <Button
+                android:id="@+id/btn_key_del"
                 style="@style/KeyboardKey"
                 android:layout_weight="1.5"
-                android:background="@drawable/key_background_active"
                 android:text="@string/key_delete"
-                android:textSize="12sp" />
+                android:textSize="11sp"
+                android:background="@drawable/key_background_active" />
+
+            <Button style="@style/KeyboardKey" android:text="@string/key_z" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_x" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_c" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_v" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_b" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_n" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_m" />
 
             <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_z" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_x" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_c" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:text="@string/key_v"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_b" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_n" />
-
-            <Button
-                style="@style/KeyboardKey"
-                android:background="@drawable/key_background_bold"
-                android:text="@string/key_m" />
-
-            <Button
+                android:id="@+id/btn_key_ent"
                 style="@style/KeyboardKey"
                 android:layout_weight="1.5"
-                android:background="@drawable/key_background_active"
                 android:text="@string/key_enter"
-                android:textSize="12sp" />
+                android:textSize="11sp"
+                android:background="@drawable/key_background_active" />
         </LinearLayout>
 
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

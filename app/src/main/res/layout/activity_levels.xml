@@ -10,14 +10,13 @@
     tools:ignore="ContentDescription">
 
     <!--
-        Levels screen layout logic:
-        - top-left home control returns to main menu
-        - top-right settings control opens app settings
-        - center title identifies the screen context
-        - 3x3 card grid provides level selection targets consumed by Levels.java
+        Levels Selection Screen Logic:
+        - This screen allows users to select a specific cryptogram level.
+        - Progress is managed via SharedPreferences (handled in Levels.java).
+        - Locked levels are visually dimmed and non-interactive.
     -->
 
-    <!-- Decorative background shape behind the home icon to improve tap discoverability. -->
+    <!-- Home navigation anchor with a decorative background. -->
     <View
         android:id="@+id/home_bg_circle"
         android:layout_width="52dp"
@@ -28,7 +27,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp" />
 
-    <!-- Home action button mapped in Levels.java to navigate back to main menu. -->
     <ImageButton
         android:id="@+id/btn_home"
         android:layout_width="45dp"
@@ -36,11 +34,11 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/home"
+        android:contentDescription="@string/home_button_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck" />
 
-    <!-- Settings shortcut button mapped in Levels.java to open the Settings screen. -->
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -50,17 +48,16 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_settings"
+        android:contentDescription="@string/settings_button_desc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Screen title for the level picker page. -->
     <TextView
         android:id="@+id/tvLevelsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:text="LEVELS"
+        android:text="@string/levels"
         android:fontFamily="@font/iceberg"
         android:textColor="#FFFFFF"
         android:textSize="45sp"
@@ -70,9 +67,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--
-        Grid of selectable level cards.
-        Levels.java iterates over each child card and assigns a click listener,
-        then passes (index + 1) as selected_level into Game activity.
+        Level Grid Logic:
+        - A 3x3 GridLayout containing CardViews for each level.
+        - Levels.java iterates through these children to apply unlock/lock logic:
+          - If Level > unlocked_level: Card alpha is reduced and a lock icon is shown.
+          - OnClick: Navigates to Game.java with the selected level ID.
     -->
     <GridLayout
         android:id="@+id/levels_grid"
@@ -85,7 +84,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLevelsTitle"
         app:layout_constraintVertical_bias="0.2">
+
+        <!-- Level 1: Usually unlocked by default -->
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_1"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
@@ -102,6 +104,7 @@
                 android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
+        <!-- Level 2 Card with conditional lock overlay -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_2"
             android:layout_width="90dp"
@@ -115,6 +118,7 @@
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Level 3 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_3"
             android:layout_width="90dp"
@@ -128,6 +132,7 @@
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Level 4 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_4"
             android:layout_width="90dp"
@@ -140,6 +145,8 @@
                 <ImageView android:id="@+id/lock_icon_4" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- Level 5 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_5"
             android:layout_width="90dp"
@@ -153,6 +160,7 @@
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Level 6 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_6"
             android:layout_width="90dp"
@@ -166,6 +174,7 @@
             </FrameLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Level 7 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_7"
             android:layout_width="90dp"
@@ -178,6 +187,8 @@
                 <ImageView android:id="@+id/lock_icon_7" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- Level 8 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_8"
             android:layout_width="90dp"
@@ -190,34 +201,19 @@
                 <ImageView android:id="@+id/lock_icon_8" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
+
+        <!-- Level 9 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_9"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#444654"> <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/tv_num_9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="9"
-                android:textColor="#33FFFFFF"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/lock_icon_9"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:src="@drawable/padlock"
-                app:tint="#FFFFFF" /> </FrameLayout>
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_9" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="9" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_9" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
     </GridLayout>

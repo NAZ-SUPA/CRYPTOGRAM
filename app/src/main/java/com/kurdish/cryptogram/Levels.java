@@ -1,9 +1,11 @@
 package com.kurdish.cryptogram;
 import android.content.Intent;
+import android.content.SharedPreferences; // ✅ added
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.Toast; // ✅ added
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 // Levels screen: handles navigation from top buttons and level selection cards.
 public class Levels extends AppCompatActivity {
+
+    private int unlockedLevel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,10 @@ public class Levels extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        //  Load unlocked level
+        SharedPreferences prefs = getSharedPreferences("game_progress", MODE_PRIVATE);
+        unlockedLevel = prefs.getInt("unlocked_level", 1);
 
         // Home returns to the main menu.
         ImageButton btnHome = findViewById(R.id.btn_home);
@@ -46,7 +54,20 @@ public class Levels extends AppCompatActivity {
         for (int i = 0; i < levelsGrid.getChildCount(); i++) {
             final int selectedLevel = i + 1;
             View card = levelsGrid.getChildAt(i);
+
+            //  show locked levels visually
+            if (selectedLevel > unlockedLevel) {
+                card.setAlpha(0.4f);
+            }
+
             card.setOnClickListener(v -> {
+
+                //  prevent opening locked levels
+                if (selectedLevel > unlockedLevel) {
+                    Toast.makeText(Levels.this, "Level Locked 🔒", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 Intent intent = new Intent(Levels.this, Game.class);
                 intent.putExtra("selected_level", selectedLevel);
                 startActivity(intent);

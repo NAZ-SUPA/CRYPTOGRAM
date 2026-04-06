@@ -85,7 +85,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvLevelsTitle"
         app:layout_constraintVertical_bias="0.2">
-
         <androidx.cardview.widget.CardView
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -104,139 +103,121 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_2"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="2"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="2" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_2" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_3"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="3"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="3" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_3" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_4"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="4"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="4" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_4" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_5"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="15dp"
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="5" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_5" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_6"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="5"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="6" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_6" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_7"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="6"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="7" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_7" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
-
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_8"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="7"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
+            app:cardBackgroundColor="#444654">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <TextView android:id="@+id/tv_num_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="8" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <ImageView android:id="@+id/lock_icon_8" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
+            </FrameLayout>
         </androidx.cardview.widget.CardView>
-
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_level_9"
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="8"
-                android:textColor="#333333"
-                android:textSize="30sp"
-                android:fontFamily="@font/iceberg"
-                android:textStyle="bold" />
-        </androidx.cardview.widget.CardView>
+            app:cardBackgroundColor="#444654"> <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="15dp"
-            app:cardBackgroundColor="#FFFFFF">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
+                android:id="@+id/tv_num_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="9"
-                android:textColor="#333333"
+                android:textColor="#33FFFFFF"
                 android:textSize="30sp"
                 android:fontFamily="@font/iceberg"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/lock_icon_9"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/padlock"
+                app:tint="#FFFFFF" /> </FrameLayout>
         </androidx.cardview.widget.CardView>
 
     </GridLayout>

@@ -23,7 +23,7 @@ public class MainMenu extends AppCompatActivity {
 
     // REGENERATION CONSTANTS:
     // One heart is awarded every 30 minutes.
-    private static final long THIRTY_MINUTES_IN_MILLIS = 1 * 60 * 1000L;
+    private static final long THIRTY_MINUTES_IN_MILLIS = 30 * 60 * 1000L;
 
     // TIMER STATE:
     // Reference to the active countdown timer to allow for cancellation and prevent memory leaks.

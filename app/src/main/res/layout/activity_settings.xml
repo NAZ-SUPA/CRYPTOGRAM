@@ -85,7 +85,8 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:backgroundTint="#D1C4E9"
-                app:cornerRadius="0dp" />
+                app:cornerRadius="0dp"
+                tools:ignore="HardcodedText" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle_off"
@@ -103,7 +104,8 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:backgroundTint="@android:color/transparent"
-                app:cornerRadius="0dp" />
+                app:cornerRadius="0dp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <View
                 android:layout_width="1dp"

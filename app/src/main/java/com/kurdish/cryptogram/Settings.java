@@ -1,5 +1,7 @@
 package com.kurdish.cryptogram;
 
+import android.content.Intent; // Needed for Email intent
+import android.net.Uri;        // Needed for Email intent
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -41,7 +43,7 @@ public class Settings extends AppCompatActivity {
         TextView tvOff = findViewById(R.id.toggle_off);
 
         View.OnClickListener notifClick = v -> {
-            // LOGIC: Only one state can be active. 
+            // LOGIC: Only one state can be active.
             // The 'isSelected' state is used by the background selector (XML) to change colors.
             boolean isOn = v.getId() == R.id.toggle_on;
             tvOn.setSelected(isOn);
@@ -69,6 +71,15 @@ public class Settings extends AppCompatActivity {
         f1.setOnClickListener(fontClick);
         f15.setOnClickListener(fontClick);
         f2.setOnClickListener(fontClick);
+
+        // EMAIL BUTTON LOGIC:
+        findViewById(R.id.btn_email).setOnClickListener(v -> {
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse("mailto:naz.feng0438@koyauniversity.org")); // explicit email
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello, I want to share...");
+            startActivity(emailIntent);
+        });
 
         // NAVIGATION LOGIC:
         // The HOME button in settings simply finishes the activity to return to the caller (MainMenu or Levels).

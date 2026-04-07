@@ -2,21 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#303240"
     android:padding="24dp">
 
-    <!--
-        Settings Layout Logic:
-        - This screen manages application-wide preferences.
-        - @id/tv_title: The primary header for the settings context.
-        - @id/notif_container: Implements a custom segmented toggle for notifications.
-        - @id/font_box: Groups font-size scaling options into a cohesive card.
-    -->
-
+    <!-- Title -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
@@ -28,14 +20,9 @@
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <!--
-        Notification Toggle Section Logic:
-        - This area allows the user to enable or disable push/in-game notifications.
-        - The segmented control (MaterialCardView + LinearLayout) is visually toggled
-          in Settings.java by updating the 'isSelected' property of the buttons.
-    -->
+    <!-- Notification Toggle -->
     <TextView
         android:id="@+id/label_notif"
         android:layout_width="wrap_content"
@@ -47,7 +34,7 @@
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@id/tv_title"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/notif_container"
@@ -84,7 +71,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:backgroundTint="#D1C4E9"
-                app:cornerRadius="0dp" />
+                app:cornerRadius="0dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle_off"
@@ -102,22 +89,16 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:backgroundTint="@android:color/transparent"
-                app:cornerRadius="0dp"
-                tools:ignore="TouchTargetSizeCheck" />
+                app:cornerRadius="0dp"/>
 
-            <!-- Vertical divider for visual separation -->
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="#4A4D58" />
-
+                android:background="#4A4D58"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!--
-        Tutorial / Help Button:
-        - Centrally located to provide the user with instructions on how to play the game.
-    -->
+    <!-- How to Play Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_how_to_play"
         android:layout_width="300dp"
@@ -133,14 +114,9 @@
         app:cornerRadius="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label_notif" />
+        app:layout_constraintTop_toBottomOf="@id/label_notif"/>
 
-    <!--
-        Font Size Configuration Card Logic:
-        - Encapsulates the font-size selection UI.
-        - The use of a MaterialCardView provides a clean, white background that makes
-          the control group stand out from the dark theme.
-    -->
+    <!-- Font Size Selection Card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/font_box"
         android:layout_width="0dp"
@@ -169,9 +145,8 @@
                 android:text="@string/select_font_size"
                 android:textColor="#3F51B5"
                 android:textSize="22sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
-            <!-- Row for the scaling presets: x1, x1.5, x2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -191,7 +166,7 @@
                     android:textColor="#3F51B5"
                     android:textSize="16sp"
                     app:backgroundTint="#D1C4E9"
-                    app:cornerRadius="25dp" />
+                    app:cornerRadius="25dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/f_x15"
@@ -206,7 +181,7 @@
                     android:textColor="#3F51B5"
                     android:textSize="18sp"
                     app:backgroundTint="@android:color/transparent"
-                    app:cornerRadius="25dp" />
+                    app:cornerRadius="25dp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/f_x2"
@@ -220,15 +195,12 @@
                     android:textColor="#3F51B5"
                     android:textSize="22sp"
                     app:backgroundTint="@android:color/transparent"
-                    app:cornerRadius="25dp" />
+                    app:cornerRadius="25dp"/>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!--
-        Navigation Button Logic:
-        - Returns the user to the previous screen (Home/Levels/Game).
-    -->
+    <!-- Back to Home Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_back_home"
         android:layout_width="148dp"
@@ -244,6 +216,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Fragment Container for HowToPlayFragment -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

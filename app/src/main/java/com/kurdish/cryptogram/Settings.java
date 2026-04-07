@@ -20,7 +20,7 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // UI SETUP LOGIC:
         // Enable edge-to-edge drawing to utilize the full screen area.
         EdgeToEdge.enable(this);
@@ -46,7 +46,7 @@ public class Settings extends AppCompatActivity {
             boolean isOn = v.getId() == R.id.toggle_on;
             tvOn.setSelected(isOn);
             tvOff.setSelected(!isOn);
-            
+
             // Note: Add SharedPreferences editor logic here to save the boolean state.
         };
         tvOn.setOnClickListener(notifClick);
@@ -63,7 +63,7 @@ public class Settings extends AppCompatActivity {
             f1.setSelected(v.getId() == R.id.f_x1);
             f15.setSelected(v.getId() == R.id.f_x15);
             f2.setSelected(v.getId() == R.id.f_x2);
-            
+
             // Note: Add SharedPreferences logic here to save the selected scale factor (e.g., 1.0f, 1.5f, 2.0f).
         };
         f1.setOnClickListener(fontClick);
@@ -75,9 +75,16 @@ public class Settings extends AppCompatActivity {
         findViewById(R.id.btn_back_home).setOnClickListener(v -> finish());
 
         // TUTORIAL HOOK:
-        // Placeholder for the 'How to Play' instructional flow.
+        // Show HowToPlayFragment when button is clicked
         findViewById(R.id.btn_how_to_play).setOnClickListener(v -> {
-            // TODO: Intent to TutorialActivity or show a DialogFragment.
+            // Make fragment container visible
+            findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+
+            // Open HowToPlayFragment
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new HowToPlayFragment())
+                    .commit();
         });
     }
 }

@@ -79,4 +79,14 @@
     <string name="font_x15">T\n-\nx1.5</string>
     <string name="font_x2">T\n-\nx2</string>
 
+    <!-- How To Play Fragment -->
+    <string name="how_to_play_title">How to Play</string>
+    <string name="how_to_play_instructions">
+• Find the Word.\n
+• Get a Hint.\n
+• Keep Your Hearts.\n
+• Unlock Wisdom.
+    </string>
+    <string name="btn_close">Close</string>
+
 </resources>

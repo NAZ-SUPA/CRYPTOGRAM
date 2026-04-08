@@ -11,7 +11,10 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumented test, which will execute on an Android device.
+ * Device-side instrumentation test scaffold:
+ * - Executes with AndroidJUnit4 on an emulator/device.
+ * - Uses InstrumentationRegistry to access app runtime context.
+ * - Confirms installed package identity to validate launch/test plumbing.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
@@ -19,8 +22,9 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
-        // Context of the app under test.
+        // Fetches context from the instrumented process hosting the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        // Package assertion guards against manifest/applicationId mismatch regressions.
         assertEquals("com.kurdish.cryptogram", appContext.getPackageName());
     }
 }

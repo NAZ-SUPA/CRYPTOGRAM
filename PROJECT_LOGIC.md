@@ -90,20 +90,41 @@ This document provides a detailed comment-style explanation of the current proje
 - Added style-level comments describing where each text/button style is used.
 - Clarified base theme aliasing and keyboard key style intent.
 
+### `app/src/main/res/layout/fragment_how_to_play.xml`
+- Added structure comments for overlay/card layering and close-action intent.
+- Clarified that instructions are sourced from `strings.xml` for maintainability.
+
 ## 5) Manifest and Navigation Safety
 
 ### `app/src/main/AndroidManifest.xml`
 - Added comments explaining app-level config and why activity declarations are structured as they are.
 - Clarified launcher responsibility (`MainActivity`) and secondary activity roles.
 
-## 6) Known Functional Status (Current)
+## 6) Build and Test Configuration Comment Coverage
+
+### `app/build.gradle.kts`
+- Added section comments for plugin usage, SDK targeting, build types, Java compatibility, and dependency roles.
+
+### `settings.gradle.kts`
+- Added comments for repository filtering, centralized dependency resolution mode, and module inclusion graph.
+
+### `gradle/libs.versions.toml`
+- Added grouping comments for version keys, runtime libraries, test libraries, and plugin aliases.
+
+### `app/src/test/java/com/kurdish/cryptogram/ExampleUnitTest.java`
+- Added comments to explain host-side test purpose and why the placeholder assertion exists.
+
+### `app/src/androidTest/java/com/kurdish/cryptogram/ExampleInstrumentedTest.java`
+- Added comments clarifying instrumentation context lookup and package-identity validation.
+
+## 7) Known Functional Status (Current)
 
 - `Levels` lock/unlock gating is active based on stored progress.
 - `MainMenu` heart timer/catch-up logic is active.
 - `Settings` currently updates visual state only (not yet persisted).
 - `Game` currently focuses on navigation and UI structure; gameplay wiring remains incremental.
 
-## 7) Why the Levels Button Previously Could Close the App
+## 8) Why the Levels Button Previously Could Close the App
 
 Typical causes in this project context:
 - `Levels` activity was not declared correctly in manifest (now declared).

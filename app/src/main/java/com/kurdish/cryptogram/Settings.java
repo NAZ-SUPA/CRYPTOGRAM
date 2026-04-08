@@ -5,6 +5,8 @@ import android.net.Uri;        // Needed for Email intent
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -72,13 +74,24 @@ public class Settings extends AppCompatActivity {
         f15.setOnClickListener(fontClick);
         f2.setOnClickListener(fontClick);
 
-        // EMAIL BUTTON LOGIC:
         findViewById(R.id.btn_email).setOnClickListener(v -> {
+            String recipient = "naz.feng0438@koyauniversity.org";
+            String subject = "From Cryptogram App";
+
+            // This creates a properly formatted mailto string:
+            // mailto:email@example.com?subject=Hello
+            String mailto = "mailto:" + recipient +
+                    "?subject=" + Uri.encode(subject);
+
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:naz.feng0438@koyauniversity.org")); // explicit email
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello, I want to share...");
-            startActivity(emailIntent);
+            emailIntent.setData(Uri.parse(mailto));
+
+            try {
+                startActivity(emailIntent);
+            } catch (Exception e) {
+                // Just in case the user doesn't have an email app installed
+                Toast.makeText(this, "No email app found", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // NAVIGATION LOGIC:

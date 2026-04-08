@@ -22,10 +22,12 @@ public class HowToPlayFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        // Inflate the popup layout as a modal-like card over a dimmed background.
+        // `container` is provided by the host FrameLayout in Settings.
         View view = inflater.inflate(R.layout.fragment_how_to_play, container, false);
 
-        // Close button behavior: simply dismiss this fragment
+        // Interaction logic:
+        // Dismiss only this fragment instance and reveal the underlying settings screen.
         Button btnClose = view.findViewById(R.id.btnClose);
         btnClose.setOnClickListener(v -> dismiss());
 
@@ -36,6 +38,9 @@ public class HowToPlayFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog() != null && getDialog().getWindow() != null) {
+            // Size logic:
+            // Use full available width so the dim overlay feels native,
+            // while keeping content height wrap-content to avoid oversized blank space.
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
         }

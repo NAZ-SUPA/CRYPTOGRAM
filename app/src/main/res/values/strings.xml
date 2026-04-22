@@ -1,37 +1,38 @@
 <resources>
     <!--
         Central String Repository:
-        All user-facing text is defined here to support localization,
-        easier maintenance, and accessibility.
+        - All user-facing text and localized string constants are defined here.
+        - This approach supports internationalization (i18n) and simplifies UI maintenance.
     -->
 
-    <!-- App Identity -->
+    <!-- App Identity: The official name of the application. -->
     <string name="app_name">CRYPTOGRAM</string>
 
-    <!-- Intro / Splash Screen -->
+    <!-- Intro / Splash Screen Strings -->
     <string name="welcome_to">WELCOME TO</string>
     <string name="cryptogram">CRYPTOGRAM</string>
+    <!-- Numeric sequence used for visual branding on the splash screen. -->
     <string name="cipher_numbers">1 8 5 7 9 6 3 8 2 4</string>
 
-    <!-- Heart / Life System -->
-    <string name="full">FULL</string>
-    <string name="some_id">4</string>
+    <!-- Heart / Life System Labels -->
+    <string name="full">FULL</string> <!-- Displayed when the player has maximum hearts. -->
+    <string name="some_id">4</string> <!-- Placeholder value for life count. -->
 
-    <!-- Main Menu Category Labels (Decorative) -->
+    <!-- Main Menu Category Labels (Decorative Chips) -->
     <string name="focus">FOCUS</string>
     <string name="english">ENGLISH</string>
     <string name="puzzle">PUZZLE</string>
 
-    <!-- Navigation Actions -->
+    <!-- Navigation and Action Button Labels -->
     <string name="play">PLAY</string>
     <string name="levels">LEVELS</string>
     <string name="btn_home">HOME</string>
 
-    <!-- Game Screen Labels -->
+    <!-- Game Screen Status Labels -->
     <string name="mistakes">MISTAKES</string>
     <string name="hint_action">Get Hint</string>
 
-    <!-- Keyboard Keys: QWERTY Layout -->
+    <!-- Custom In-App Keyboard: QWERTY Layout Keys -->
     <string name="key_q">Q</string>
     <string name="key_w">W</string>
     <string name="key_e">E</string>
@@ -61,12 +62,12 @@
     <string name="key_m">M</string>
     <string name="key_enter">ENTER</string>
 
-    <!-- Accessibility / Content Descriptions -->
+    <!-- Accessibility / Content Descriptions for screen readers -->
     <string name="home_button_desc">Navigate to home screen</string>
     <string name="settings_button_desc">Open settings menu</string>
     <string name="mistake_indicator_desc">Mistake status indicator</string>
 
-    <!-- Settings Screen Labels -->
+    <!-- Settings Screen Interface Labels -->
     <string name="settings_title">SETTINGS</string>
     <string name="label_notifications">NOTIFICATIONS</string>
     <string name="btn_on">ON</string>
@@ -75,13 +76,14 @@
     <string name="select_font_size">SELECT FONT SIZE</string>
     <string name="btn_email">EMAIL</string>
 
-    <!-- Font Size Presets -->
+    <!-- Font Size Selection Button Text (Multi-line) -->
     <string name="font_x1">T\n-\nx1</string>
     <string name="font_x15">T\n-\nx1.5</string>
     <string name="font_x2">T\n-\nx2</string>
 
-    <!-- How To Play Fragment -->
+    <!-- How To Play Fragment Content -->
     <string name="how_to_play_title">How to Play</string>
+    <!-- Instructional steps for the game rules. -->
     <string name="how_to_play_instructions">
 • Find the Word.\n
 • Get a Hint.\n
@@ -89,5 +91,21 @@
 • Unlock Wisdom.
     </string>
     <string name="btn_close">Close</string>
+
+    <!-- Game Level Data: Sentences and phrases to be solved as puzzles. -->
+    <string-array name="game_words">
+        <item>everyone has a weak spot</item>
+        <item>whatever you believe you can achieve</item>
+        <item>there is no logic in love</item>
+        <item>if it works not touch it in programming</item>
+        <item>cat got your tongue</item>
+        <item>curiosity killed the cat</item>
+        <item>speak to the devil</item>
+        <item>let bygones  be bygones</item>
+        <item>peaks are deserve to try for</item>
+    </string-array>
+
+    <!-- Placeholder/Test strings -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Game Activity Layout:
+    - This screen is the primary gameplay area where users solve cryptogram puzzles.
+    - Uses ConstraintLayout to position navigation, status, and input elements.
+    - Features a dark theme background consistent with the rest of the application.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,13 +15,10 @@
     tools:context=".Game">
 
     <!--
-        Navigation & Header UI Logic:
-        - The screen is divided into a top navigation bar, a central status area, and a bottom input area.
-        - @id/home_bg_circle: Provides a visual anchor for the home button.
-        - @id/btn_home: Triggers navigation back to the MainMenu activity.
-        - @id/btn_settings_main: Shortcut to the Settings activity for mid-game configuration.
+        Home Button Background:
+        - A stylized rectangle that sits behind the home icon for better visibility.
+        - Anchored to the top-left of the screen.
     -->
-
     <View
         android:id="@+id/home_bg_circle"
         android:layout_width="52dp"
@@ -26,6 +29,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp" />
 
+    <!--
+        Home Button:
+        - Interactive button that allows the user to exit the game and return to the main menu.
+        - Uses a transparent background to show the home_bg_circle beneath it.
+    -->
     <ImageButton
         android:id="@+id/btn_home"
         android:layout_width="45dp"
@@ -38,6 +46,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <!--
+        Settings Button:
+        - Positioned at the top right corner.
+        - Provides quick access to app settings without leaving the game.
+    -->
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -52,10 +65,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--
-        Mistake Tracking System:
-        - Displays the current mistake count out of a maximum of 3.
-        - Indicators (iv_mistake_1-3) change state (e.g., from @drawable/circle_placeholder to @drawable/cross)
-          when the user makes an incorrect guess.
+        Mistakes Header:
+        - Displays the text "MISTAKES" to indicate the player's performance.
+        - Positioned at the top center of the screen.
     -->
     <TextView
         android:id="@+id/tv_header_mistakes"
@@ -69,6 +81,11 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="12dp" />
 
+    <!--
+        Mistake Indicator 1:
+        - Visual marker for the first mistake.
+        - Switches from a placeholder to a cross when a mistake occurs.
+    -->
     <ImageView
         android:id="@+id/iv_mistake_1"
         android:layout_width="30dp"
@@ -79,6 +96,11 @@
         app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
         android:layout_marginTop="12dp" />
 
+    <!--
+        Mistake Indicator 2:
+        - Visual marker for the second mistake.
+        - Positioned to the right of the first indicator.
+    -->
     <ImageView
         android:id="@+id/iv_mistake_2"
         android:layout_width="30dp"
@@ -90,6 +112,11 @@
         app:layout_constraintStart_toStartOf="@+id/tv_header_mistakes"
         app:layout_constraintTop_toBottomOf="@+id/tv_header_mistakes" />
 
+    <!--
+        Mistake Indicator 3:
+        - Visual marker for the third mistake.
+        - If this indicator is filled, the game ends.
+    -->
     <ImageView
         android:id="@+id/iv_mistake_3"
         android:layout_width="30dp"
@@ -102,11 +129,38 @@
         android:layout_marginTop="12dp" />
 
     <!--
-        Hint & Utility Logic:
-        - Floating action area for hints.
-        - The button is elevated to signify its "overlay" role on top of the game board.
+        Game Puzzle Area (Scrollable):
+        - Houses the dynamic FlexboxLayout where words and letters are generated.
+        - ScrollView ensures the puzzle is accessible even if it exceeds the screen height.
     -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <!--
+            Dynamic Content Container:
+            - FlexboxLayout handles wrapping of words across multiple lines automatically.
+            - Children (letter boxes) are added programmatically in Game.java.
+        -->
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:flexWrap="wrap"
+            app:flexDirection="row"
+            app:justifyContent="center"
+            app:alignItems="center"
+            />
+
+    </ScrollView>
+
+    <!--
+        Hint Button:
+        - Elevated button that allows users to reveal a random character.
+        - Positioned above the keyboard for easy access.
+    -->
     <ImageButton
         android:id="@+id/btn_hint"
         android:layout_width="52dp"
@@ -119,6 +173,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!--
+        Hint Icon:
+        - The visual bulb icon placed on top of the hint button.
+    -->
     <ImageView
         android:id="@+id/iv_hint_icon"
         android:layout_width="32dp"
@@ -132,11 +190,9 @@
         app:layout_constraintTop_toTopOf="@+id/btn_hint" />
 
     <!--
-        Custom Input Keyboard Logic:
-        - This provides the primary interaction for solving the cryptogram.
-        - Buttons are styled via @style/KeyboardKey for consistency.
-        - Special keys (DEL, ENT) are wider (weight 1.5) and use a distinct background.
-        - Text size is adjusted to 11sp to meet accessibility minimums while fitting complex labels.
+        Custom In-App Keyboard:
+        - Provides a full QWERTY layout for letter input.
+        - Avoids the use of the system soft keyboard for better immersion and layout control.
     -->
     <LinearLayout
         android:id="@+id/custom_keyboard"
@@ -147,57 +203,61 @@
         android:background="#D1D5DB"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Row 1: Character inputs Q through P -->
+        <!-- First Row (Q to P) -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-            <Button style="@style/KeyboardKey" android:text="@string/key_q" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_w" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_e" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_r" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_t" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_y" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_u" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_i" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_o" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_p" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_q" android:tag="Q" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_w" android:tag="W" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_e" android:tag="E" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_r" android:tag="R" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_t" android:tag="T" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_y" android:tag="Y" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_u" android:tag="U" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_i" android:tag="I" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_o" android:tag="O" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_p" android:tag="P" />
         </LinearLayout>
 
-        <!-- Row 2: Character inputs A through L with horizontal padding for centering -->
+        <!-- Second Row (A to L) -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="15dp">
-            <Button style="@style/KeyboardKey" android:text="@string/key_a" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_s" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_d" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_f" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_g" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_h" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_j" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_k" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_l" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_a" android:tag="A" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_s" android:tag="S" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_d" android:tag="D" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_f" android:tag="F" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_g" android:tag="G" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_h" android:tag="H" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_j" android:tag="J" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_k" android:tag="K" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_l" android:tag="L" />
         </LinearLayout>
 
-        <!-- Row 3: Utility keys and remaining character inputs -->
+        <!-- Third Row (DEL, Z to M, ENT) -->
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+            <!-- Delete Key: Clears current box input -->
             <Button
                 android:id="@+id/btn_key_del"
                 style="@style/KeyboardKey"
                 android:layout_weight="1.5"
                 android:text="@string/key_delete"
                 android:textSize="11sp"
+                android:tag="DEL"
                 android:background="@drawable/key_background_active" />
 
-            <Button style="@style/KeyboardKey" android:text="@string/key_z" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_x" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_c" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_v" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_b" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_n" />
-            <Button style="@style/KeyboardKey" android:text="@string/key_m" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_z" android:tag="Z" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_x" android:tag="X" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_c" android:tag="C" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_v" android:tag="V" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_b" android:tag="B" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_n" android:tag="N" />
+            <Button style="@style/KeyboardKey" android:text="@string/key_m" android:tag="M" />
 
+            <!-- Enter Key: Submits the current box input for validation -->
             <Button
                 android:id="@+id/btn_key_ent"
                 style="@style/KeyboardKey"
                 android:layout_weight="1.5"
                 android:text="@string/key_enter"
                 android:textSize="11sp"
+                android:tag="ENT"
                 android:background="@drawable/key_background_active" />
         </LinearLayout>
 

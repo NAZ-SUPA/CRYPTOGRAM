@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Main Menu Layout Root:
+    - Uses ConstraintLayout for flexible positioning of navigation elements.
+    - Features a dark background consistent with the app's visual theme.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +14,11 @@
     tools:context=".MainMenu">
 
     <!--
-        Main Menu Navigation Hub Logic:
-        - This screen serves as the central jumping-off point for all major app features.
-        - @id/life_background_capsule: Visual container for the heart system.
-        - @id/heart_life_1: Icon representing the player's lives.
-        - @id/tv_life_count: Displays current hearts (managed by MainMenu.java heart logic).
-        - @id/tv_full_lives: Displays a countdown timer or "Full" status (managed by MainMenu.java UI timer).
+        Settings Button:
+        - Positioned at the top right corner.
+        - Uses a transparent background for a modern icon-only appearance.
+        - Triggers the transition to the Settings activity.
     -->
-
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -31,7 +33,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <!-- Life indicator cluster UI Logic -->
+    <!--
+        Life Status Container (Capsule):
+        - A visual backdrop for the heart icon, heart count, and regeneration timer.
+        - Anchored to the heart_life_1 icon to maintain alignment.
+    -->
     <View
         android:id="@+id/life_background_capsule"
         android:layout_width="0dp"
@@ -44,6 +50,11 @@
         app:layout_constraintStart_toStartOf="@+id/heart_life_1"
         app:layout_constraintTop_toTopOf="@+id/heart_life_1" />
 
+    <!--
+        Heart Icon:
+        - Illustrative icon representing player lives.
+        - Serves as the visual anchor for the life-tracking UI group.
+    -->
     <ImageView
         android:id="@+id/heart_life_1"
         android:layout_width="60dp"
@@ -55,6 +66,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+        Regeneration Timer / Status Label:
+        - Displays the countdown until the next heart (e.g., "29:59") or "FULL".
+        - Managed dynamically by MainMenu.java.
+    -->
     <TextView
         android:id="@+id/tv_full_lives"
         style="@style/full"
@@ -69,6 +85,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/heart_life_1"
         android:layout_marginStart="8dp" />
 
+    <!--
+        Life Count Overlay:
+        - Displays the numeric value of current lives (e.g., "5") directly over the heart icon.
+        - Centers itself within the heart_life_1 bounds.
+    -->
     <TextView
         android:id="@+id/tv_life_count"
         android:layout_width="wrap_content"
@@ -85,8 +106,9 @@
         tools:ignore="SpUsage,TextSizeCheck" />
 
     <!--
-        Branding Card Logic:
-        - Encapsulates decorative category chips that communicate the app's genre.
+        Central Branding Frame:
+        - A decorative black rectangle that houses category labels.
+        - Provides a visual center of gravity for the menu design.
     -->
     <View
         android:id="@+id/main_menu_card"
@@ -101,8 +123,9 @@
         app:layout_constraintVertical_bias="0.232" />
 
     <!--
-        Category Chips:
-        - Non-interactive visual labels to provide context about the game types.
+        Decorative Label Group (Focus, English, Puzzle):
+        - These are non-interactive UI elements.
+        - They serve to categorize the "type" of game and enhance the visual style.
     -->
     <View
         android:id="@+id/mint_decorative_capsule"
@@ -178,10 +201,10 @@
         app:layout_constraintTop_toTopOf="@+id/purple_decorative_capsule" />
 
     <!--
-        Primary Action Buttons Logic:
-        - @id/btn_main_action: Navigates to the Game activity.
-        - @id/btn_levels: Navigates to the Levels activity.
-        - Both buttons are placed for easy thumb access.
+        Play Game Button:
+        - Primary call-to-action for the menu.
+        - Triggers navigation to the Game activity.
+        - Uses a custom drawable '@drawable/play_rectangle' for styling.
     -->
     <ImageButton
         android:id="@+id/btn_main_action"
@@ -197,6 +220,7 @@
         app:layout_constraintTop_toBottomOf="@+id/purple_decorative_capsule"
         tools:ignore="RedundantDescriptionCheck" />
 
+    <!-- Label overlaid on the Play button -->
     <TextView
         android:id="@+id/tv_label_play"
         style="@style/play"
@@ -211,7 +235,11 @@
         app:layout_constraintStart_toStartOf="@+id/btn_main_action"
         app:layout_constraintTop_toTopOf="@+id/btn_main_action" />
 
-
+    <!--
+        Select Levels Button:
+        - Secondary navigation button.
+        - Triggers navigation to the Level selection screen.
+    -->
     <ImageButton
         android:id="@+id/btn_levels"
         android:layout_width="148dp"
@@ -225,6 +253,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_main_action"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <!-- Label overlaid on the Levels button -->
     <TextView
         android:id="@+id/tv_label_levels"
         style="@style/levels"
@@ -238,6 +267,5 @@
         app:layout_constraintEnd_toEndOf="@+id/btn_levels"
         app:layout_constraintStart_toStartOf="@+id/btn_levels"
         app:layout_constraintTop_toTopOf="@+id/btn_levels" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

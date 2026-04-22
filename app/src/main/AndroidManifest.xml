@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Android Manifest:
+    - The central configuration file for the Android application.
+    - Defines required system permissions.
+    - Declares all app components including Activities and BroadcastReceivers.
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Application-wide configuration: icon, label, backup rules, and theme are
-         defined here so every screen shares the same app identity. -->
+    <!--
+        System Permissions:
+        - RECEIVE_BOOT_COMPLETED: Allows the app to start BootReceiver after the device reboots.
+        - POST_NOTIFICATIONS: Required on Android 13+ to show heart regeneration alerts.
+        - SCHEDULE_EXACT_ALARM: Allows precise timing for heart restoration (Android 12+).
+        - USE_EXACT_ALARM: Alternative permission for high-precision alarms.
+    -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,8 +28,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CRYPTOGRAM">
-        <!-- Secondary screens are declared first because they are launched from
-             the main menu rather than being direct entry points. -->
+
+        <!--
+            HeartNotificationReceiver:
+            - Internal receiver that handles life-restoration logic.
+            - Not exported as it should only be triggered by this app's alarms.
+        -->
+        <receiver android:name=".HeartNotificationReceiver"
+            android:exported="false" />
+
+        <!--
+            BootReceiver:
+            - Listens for system boot completion to reschedule heart alarms.
+            - Must be exported to receive the system broadcast.
+        -->
+        <receiver android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!--
+            App Activities:
+            - Settings: Configuration and user preferences.
+            - Levels: Stage selection interface.
+            - Game: Primary puzzle solving screen.
+            - MainMenu: Central hub and navigation.
+        -->
         <activity
             android:name=".Settings"
             android:exported="false" />
@@ -26,14 +68,17 @@
         <activity
             android:name=".MainMenu"
             android:exported="false" />
+
+        <!--
+            MainActivity:
+            - The entry point (Splash Screen) for the application.
+            - Marked as LAUNCHER to appear in the device's app drawer.
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <!-- MainActivity is the launcher entry point and shows the intro screen
-                 before the app transitions into the rest of the project. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

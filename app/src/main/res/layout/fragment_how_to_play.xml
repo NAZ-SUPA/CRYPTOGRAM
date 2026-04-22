@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    HowToPlay modal layout logic:
-    - Outer container acts as the dimmed overlay layer.
-    - Inner white card contains instructional text and one explicit close action.
-    - Content is resource-driven to keep wording centralized in strings.xml.
+    How To Play Fragment Layout:
+    - Displays a modal instruction card to the user.
+    - The outer LinearLayout serves as a dimming layer with a semi-transparent black background (#80000000).
+    - It uses gravity="center" to ensure the instruction card is perfectly centered on the screen.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -12,7 +12,11 @@
     android:background="#80000000"
     android:orientation="vertical">
 
-    <!-- Instruction card surface: constrained width for readability on phones/tablets. -->
+    <!--
+        Instruction Card:
+        - A white background container that holds the title, instruction text, and close button.
+        - Width is fixed to 300dp to ensure a consistent card-like appearance across different device sizes.
+    -->
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -20,7 +24,11 @@
         android:padding="20dp"
         android:background="#FFFFFF">
 
-        <!-- Title emphasizes purpose of this modal and maps to settings action label. -->
+        <!--
+            Modal Title:
+            - Displays the "How to Play" heading.
+            - Uses a bold style and larger text size to distinguish it from the instructions.
+        -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,14 +37,22 @@
             android:textStyle="bold"
             android:layout_marginBottom="10dp"/>
 
-        <!-- Multi-line guidance bullet list explaining the intended gameplay loop. -->
+        <!--
+            Instruction Text:
+            - The main body of the modal.
+            - Loads a long string from resources that explains the rules of the cryptogram game.
+        -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/how_to_play_instructions"
             android:textSize="16sp"/>
 
-        <!-- Explicit dismissal control for users who do not use back gesture/button. -->
+        <!--
+            Dismiss Button:
+            - Allows the user to close the instruction modal and return to the settings screen.
+            - Handled by the 'dismiss()' logic in HowToPlayFragment.java.
+        -->
         <Button
             android:id="@+id/btnClose"
             android:layout_width="wrap_content"

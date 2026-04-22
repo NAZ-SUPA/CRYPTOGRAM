@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Game Won Fragment Layout:
+    - This is an overlay (dialog-like) UI that appears when the player successfully solves a puzzle.
+    - Uses a semi-transparent black background (#B3000000) to dim the game board behind it.
+    - Elevation is set high (20dp) to ensure it appears on top of all other game elements.
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B3000000"
+    android:clickable="true"
+    android:focusable="true"
+    android:elevation="20dp"
+    tools:context=".GameWon">
+
+    <!--
+        Main Success Dialog:
+        - A vertical container for the victory message and navigation buttons.
+        - Uses the same dark gray background (#303240) as the rest of the app for a unified look.
+    -->
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#303240"
+        android:padding="32dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!--
+            Victory Header:
+            - Large green text "WINNER!" to provide immediate positive feedback.
+            - Uses 'Iceberg' font for brand consistency.
+        -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WINNER!"
+            android:textColor="#4CAF50"
+            android:textSize="40sp"
+            android:fontFamily="@font/iceberg"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <!--
+            Level Completion Message:
+            - A secondary label providing specific context (e.g., "Level Complete!").
+            - Managed dynamically in GameWon.java.
+        -->
+        <TextView
+            android:id="@+id/tv_win_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Level Complete!"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            android:layout_marginBottom="32dp" />
+
+        <!--
+            Next Level Button:
+            - Primary action button to continue the game.
+            - Styled in green to match the "Success" theme.
+        -->
+        <Button
+            android:id="@+id/btn_next_level"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="NEXT LEVEL"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:backgroundTint="#4CAF50"
+            android:layout_marginBottom="16dp" />
+
+        <!--
+            Return Home Button:
+            - Secondary navigation button.
+            - Styled in a neutral gray-blue to differentiate from the primary action.
+        -->
+        <Button
+            android:id="@+id/btn_home_from_win"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="GO HOME"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:backgroundTint="#607D8B" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Levels Selection Layout:
+    - Provides a grid interface for the user to select game levels.
+    - Uses ConstraintLayout to manage the title and the levels grid.
+    - Dark theme background consistent with the app's visual identity.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,13 +16,9 @@
     tools:ignore="ContentDescription">
 
     <!--
-        Levels Selection Screen Logic:
-        - This screen allows users to select a specific cryptogram level.
-        - Progress is managed via SharedPreferences (handled in Levels.java).
-        - Locked levels are visually dimmed and non-interactive.
+        Home Button Background:
+        - Decorative element placed behind the home icon.
     -->
-
-    <!-- Home navigation anchor with a decorative background. -->
     <View
         android:id="@+id/home_bg_circle"
         android:layout_width="52dp"
@@ -27,6 +29,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp" />
 
+    <!--
+        Home Navigation Button:
+        - Allows the user to return to the Main Menu.
+    -->
     <ImageButton
         android:id="@+id/btn_home"
         android:layout_width="45dp"
@@ -39,6 +45,10 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck" />
 
+    <!--
+        Settings Button:
+        - Direct access to settings from the level selection screen.
+    -->
     <ImageButton
         android:id="@+id/btn_settings_main"
         android:layout_width="50dp"
@@ -52,6 +62,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+        Screen Title:
+        - Large, stylized heading indicating the "LEVELS" selection area.
+    -->
     <TextView
         android:id="@+id/tvLevelsTitle"
         android:layout_width="wrap_content"
@@ -67,11 +81,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--
-        Level Grid Logic:
-        - A 3x3 GridLayout containing CardViews for each level.
-        - Levels.java iterates through these children to apply unlock/lock logic:
-          - If Level > unlocked_level: Card alpha is reduced and a lock icon is shown.
-          - OnClick: Navigates to Game.java with the selected level ID.
+        Levels Grid:
+        - Organizes level cards in a 3-column layout.
+        - Each CardView represents an individual level.
+        - Appearance (Lock/Unlock) is managed dynamically in Levels.java.
     -->
     <GridLayout
         android:id="@+id/levels_grid"
@@ -85,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvLevelsTitle"
         app:layout_constraintVertical_bias="0.2">
 
-        <!-- Level 1: Usually unlocked by default -->
+        <!-- Level 1 Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_1"
             android:layout_width="90dp"
@@ -93,6 +106,7 @@
             android:layout_margin="10dp"
             app:cardCornerRadius="15dp"
             app:cardBackgroundColor="#FFFFFF">
+            <!-- Numeric label for Level 1 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -104,7 +118,7 @@
                 android:textStyle="bold" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Level 2 Card with conditional lock overlay -->
+        <!-- Level 2 Card with Lock Overlay -->
         <androidx.cardview.widget.CardView
             android:id="@+id/card_level_2"
             android:layout_width="90dp"
@@ -114,6 +128,7 @@
             app:cardBackgroundColor="#444654">
             <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
                 <TextView android:id="@+id/tv_num_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:text="2" android:textColor="#33FFFFFF" android:textSize="30sp" android:fontFamily="@font/iceberg" android:textStyle="bold" />
+                <!-- Padlock icon displayed if level is locked -->
                 <ImageView android:id="@+id/lock_icon_2" android:layout_width="50dp" android:layout_height="50dp" android:layout_gravity="center" android:src="@drawable/padlock" app:tint="#FFFFFF" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>

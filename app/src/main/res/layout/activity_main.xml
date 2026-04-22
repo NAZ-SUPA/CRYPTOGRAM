@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Root ConstraintLayout for the Splash Screen (MainActivity).
+    ConstraintLayout allows for a flexible UI by positioning elements relative to each other and the parent.
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,12 +13,11 @@
     tools:context=".MainActivity">
 
     <!--
-        Splash/Intro Screen Layout Logic:
-        - This screen provides the initial brand impression.
-        - Logic in MainActivity.java uses a postDelayed Handler (2s) to transition to MainMenu.
-        - @id/welcome_to: Static label establishing the greeting context.
+        Welcome Label:
+        - Displays the text "WELCOME TO".
+        - Positioned near the top center of the screen with a significant top margin.
+        - Uses a custom style '@style/welcome_to' for consistent typography.
     -->
-
     <TextView
         android:id="@+id/welcome_to"
         style="@style/welcome_to"
@@ -28,10 +31,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--
-        Highlighting Logic (Visual):
-        - The rectangles (rectangle_2, rectangle_3) are positioned behind the 'R' characters
-          of the title to provide a "code/cipher" visual cue.
-        - Their positions are carefully aligned with the @string/cryptogram text.
+        Background Accent View 1:
+        - A yellow vertical rectangle used for visual branding.
+        - Positioned specifically behind the first 'R' in "CRYPTOGRAM".
+        - Helps create the "highlighted character" aesthetic of a cipher.
     -->
     <View
         android:id="@+id/rectangle_2"
@@ -44,6 +47,12 @@
         app:layout_constraintStart_toStartOf="@+id/cryptogram"
         app:layout_constraintTop_toTopOf="@+id/cryptogram" />
 
+    <!--
+        Background Accent View 2:
+        - A yellow vertical rectangle used for visual branding.
+        - Positioned specifically behind the second 'R' in "CRYPTOGRAM".
+        - Mirrors rectangle_2 to complete the symmetrical brand design.
+    -->
     <View
         android:id="@+id/rectangle_3"
         android:layout_width="32dp"
@@ -56,9 +65,10 @@
         app:layout_constraintTop_toTopOf="@+id/cryptogram" />
 
     <!--
-        Dynamic Branding Logic:
-        - @id/cryptogram: The text is programmatically styled in MainActivity.java
-          using ForegroundColorSpan to highlight the 'R' letters in black.
+        Main Brand Title:
+        - Displays "CRYPTOGRAM" in large, stylized font.
+        - Logic in MainActivity.java applies ForegroundColorSpan to specific letters.
+        - Centered horizontally and placed below the welcome label.
     -->
     <TextView
         android:id="@+id/cryptogram"
@@ -75,10 +85,10 @@
         app:layout_constraintTop_toBottomOf="@+id/welcome_to" />
 
     <!--
-        Cipher Logic (Visual):
-        - @id/tv_cipher_numbers: Displays the numeric key sequence.
-        - Specific numbers (corresponding to the 'R' indices) are also colored black
-          programmatically in MainActivity.java.
+        Cipher Numeric Pattern:
+        - Displays a series of numbers beneath the title (e.g., "3 18 25...").
+        - Reinforces the puzzle/cryptogram theme.
+        - Uses letterSpacing to align roughly with the title letters above it.
     -->
     <TextView
         android:id="@+id/tv_cipher_numbers"

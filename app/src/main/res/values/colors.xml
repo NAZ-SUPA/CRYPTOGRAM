@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-        Global Color Palette Logic:
-        - This file defines the primary, secondary, and accent colors for the CRYPTOGRAM brand.
-        - Using semantic names (e.g., 'purple_main') ensures that changing the brand color
-          only requires a single update here.
+        Global Color Palette Definition:
+        - This file centralizes all color hex codes used throughout the application.
+        - Using semantic names helps maintain a consistent brand identity.
+        - Changes made here will reflect globally across all layouts and programmatically set colors.
     -->
 
-    <!-- Base Neutrals: Used for backgrounds, text, and divider lines. -->
+    <!-- Standard Neutrals: Used for text, basic backgrounds, and boundaries. -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray_light">#D9D9D9</color>
-    <color name="bg_dark">#303240</color> <!-- The standard background for most activities -->
 
-    <!-- Accent Colors: Used for highlights, CTA buttons, and error states. -->
-    <color name="accent_yellow">#FFFB00</color> <!-- Used behind 'R' in the splash screen -->
-    <color name="main_blue">#351FC5</color>    <!-- Primary color for 'PLAY' and 'LEVELS' labels -->
-    <color name="error_red">#FF3434</color>     <!-- Color for the mistake tracking system -->
+    <!-- Application Background: The primary dark theme color used for screen backgrounds. -->
+    <color name="bg_dark">#303240</color>
 
-    <!-- Brand Purple Palette: Establishing the "Cryptogram" aesthetic. -->
+    <!-- Branding Accents: Colors used for visual highlights and specific UI feedback. -->
+    <color name="accent_yellow">#FFFB00</color> <!-- Highlight color for specific letters in the logo -->
+    <color name="main_blue">#351FC5</color>    <!-- Primary blue used for button labels and UI accents -->
+    <color name="error_red">#FF3434</color>     <!-- Color used for mistake indicators and error text -->
+
+    <!-- Theme-Specific Purples: Used to create the app's signature "Cipher" look. -->
     <color name="purple_light">#DBCAF2</color>
     <color name="purple_soft">#C8B3F6</color>
-    <color name="purple_vibrant">#B681FF</color> <!-- Main text color for titles -->
+    <color name="purple_vibrant">#B681FF</color> <!-- Bright purple for main titles and headings -->
     <color name="purple_main">#8947E4</color>
     <color name="purple_pinkish">#CE74F2</color>
 
-    <!-- Supporting Palette: For decorative elements like category chips. -->
+    <!-- Secondary Palette: Used for decorative elements like category tags. -->
     <color name="mint_green">#97E3CC</color>
     <color name="bright_green">#9CE270</color>
 </resources>

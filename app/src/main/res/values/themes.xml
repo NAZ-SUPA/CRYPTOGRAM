@@ -1,29 +1,40 @@
 <resources>
     <!--
-        App Design System & Theming Logic:
-        - This file defines the global visual language of the CRYPTOGRAM app.
-        - Styles are grouped by their functional role (Branding, Navigation, UI Controls).
-        - Using styles ensures visual consistency and allows for "one-change-everywhere" updates.
+        App Design System & Theming Configuration:
+        - This file defines the global visual language and component styles for the CRYPTOGRAM app.
+        - Styles are organized by their functional role: Branding, Navigation, and Gameplay.
+        - Implementing a centralized style system ensures visual consistency and facilitates global design updates.
     -->
 
-    <!-- Base application theme: Uses Material3 DayNight for future dark mode support. -->
+    <!--
+        Base Application Theme:
+        - Inherits from Material3 DayNight with NoActionBar to allow for custom header implementations.
+        - Provides the foundation for all activity themes in the project.
+    -->
     <style name="Base.Theme.CRYPTOGRAM" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Brand colors and baseline Material components configuration. -->
+        <!-- Baseline Material components configuration can be added here. -->
     </style>
 
-    <!-- Main Theme Alias -->
+    <!--
+        Main Application Theme Alias:
+        - The primary theme reference used in the AndroidManifest.xml.
+    -->
     <style name="Theme.CRYPTOGRAM" parent="Base.Theme.CRYPTOGRAM" />
 
     <!--
         BRANDING STYLES:
-        Used on the Splash (MainActivity) and MainMenu screens to establish the identity.
+        - These styles define the typography and colors for the splash screen and titles.
+        - Establishing the "Welcome" and "Cryptogram" identity.
     -->
+
+    <!-- Style for the "WELCOME TO" greeting text. -->
     <style name="welcome_to">
         <item name="android:textSize">35sp</item>
         <item name="android:textColor">@color/purple_vibrant</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <!-- Style for the main "CRYPTOGRAM" title logo. -->
     <style name="cryptogram">
         <item name="android:textSize">48sp</item>
         <item name="android:letterSpacing">0.04</item>
@@ -31,6 +42,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Style for the decorative cipher numeric pattern shown on the splash screen. -->
     <style name="cipher_style">
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/purple_vibrant</item>
@@ -40,18 +52,22 @@
 
     <!--
         MENU & NAVIGATION STYLES:
-        Logic: Chips and Buttons use high-contrast colors (Black/White/Purple)
-        to guide the user's focus towards primary actions.
+        - These styles apply to category chips and primary action buttons.
+        - Use high-contrast color pairings (e.g., Black/White/Blue) for accessibility and clarity.
     -->
+
+    <!-- Base style for category labels (e.g., "FOCUS"). -->
     <style name="focus">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fontFamily">@font/iceberg</item>
     </style>
 
+    <!-- Inherited styles for specific categories. -->
     <style name="english" parent="focus" />
     <style name="puzzle" parent="focus" />
 
+    <!-- Style for primary action text (e.g., "PLAY"). -->
     <style name="play">
         <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/main_blue</item>
@@ -59,13 +75,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Style for the "LEVELS" navigation text. -->
     <style name="levels" parent="play" />
 
     <!--
         GAMEPLAY UI STYLES:
-        Logic: Mistakes use red to signify warning/error state.
-        Keyboard keys use a uniform height and weight for a balanced QWERTY grid.
+        - Specialized styles for the in-game experience, including mistake tracking and the keyboard.
     -->
+
+    <!-- Style for the "MISTAKES" label; uses red to indicate a warning/penalty state. -->
     <style name="mistakes">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/error_red</item>
@@ -73,13 +91,19 @@
         <item name="android:letterSpacing">0.05</item>
     </style>
 
+    <!--
+        Custom In-App Keyboard Key Style:
+        - Defines a uniform grid layout for the custom QWERTY keyboard.
+        - Uses a custom background drawable and weight-based sizing for consistency.
+    -->
     <style name="KeyboardKey">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_margin">2dp</item>
         <item name="android:background">@drawable/key_background_bold</item>
-        <item name="backgroundTint">@null</item> <!-- Required to allow custom drawable background -->
+        <!-- backgroundTint is set to null to prevent the default Material theme from overriding the custom drawable. -->
+        <item name="backgroundTint">@null</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textAllCaps">true</item>
@@ -88,7 +112,10 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <!-- UI Utility Styles -->
+    <!--
+        General UI Status Style:
+        - Used for labels like "FULL" in the heart system.
+    -->
     <style name="full">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/white</item>

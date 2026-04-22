@@ -1,9 +1,20 @@
 <resources>
-    <!-- Dark-mode version of the shared app theme; it mirrors the light theme
-         structure so both appearances stay consistent across screens. -->
-    <!-- Base application theme shared by all screens in dark mode. -->
+    <!--
+        Dark Mode Theme Configuration:
+        - This file defines the visual overrides for when the device is in Night Mode.
+        - It inherits from the Material3 DayNight system, allowing the app to automatically
+          switch color palettes based on system settings.
+    -->
+
+    <!--
+        Base Application Theme (Night):
+        - Mirrored from the light theme to ensure structural consistency.
+        - Inherits 'NoActionBar' to maintain the app's custom header design.
+    -->
     <style name="Base.Theme.CRYPTOGRAM" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize the dark theme colors here if needed. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <!--
+            Theme-specific color overrides for Dark Mode can be defined here.
+            Currently, the app relies on the global color palette defined in colors.xml.
+        -->
     </style>
 </resources>

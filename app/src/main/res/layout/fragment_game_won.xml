@@ -64,6 +64,24 @@
             android:layout_marginBottom="32dp" />
 
         <!--
+            Solved Sentence Preview:
+            - Populated from GameWon.java using the `full_sentence` argument.
+            - Uses yellow + italic styling to visually separate the solved answer
+              from status text and action buttons.
+            - Width is match_parent so long phrases wrap cleanly inside dialog bounds.
+        -->
+        <TextView
+            android:id="@+id/tv_won_sentence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFEB3B"
+            android:textSize="22sp"
+            android:textStyle="italic"
+            android:fontFamily="@font/iceberg"
+            android:textAlignment="center"
+            android:layout_marginBottom="32dp" />
+
+        <!--
             Next Level Button:
             - Primary action button to continue the game.
             - Styled in green to match the "Success" theme.
@@ -77,6 +95,7 @@
             android:textStyle="bold"
             android:backgroundTint="#4CAF50"
             android:layout_marginBottom="16dp" />
+        <!-- Visibility is controlled in GameWon.java for end-of-season levels. -->
 
         <!--
             Return Home Button:

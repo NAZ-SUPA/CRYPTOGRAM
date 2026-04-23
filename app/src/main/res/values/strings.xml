@@ -92,12 +92,18 @@
     </string>
     <string name="btn_close">Close</string>
 
-    <!-- Game Level Data: Sentences and phrases to be solved as puzzles. -->
+    <!--
+        Game Level Data: Sentences and phrases to be solved as puzzles.
+        Ordering matters because Game.java resolves levels by array index:
+        - selected_level (1-based from UI) -> currentLevelIndex (0-based)
+        - currentLevelIndex is used directly to read one item from this array
+        Keep this list stable unless you intentionally change level progression.
+    -->
     <string-array name="game_words">
         <item>everyone has a weak spot</item>
         <item>whatever you believe you can achieve</item>
         <item>there is no logic in love</item>
-        <item>if it works not touch it in programming</item>
+        <item>if it works please not touch it</item>
         <item>cat got your tongue</item>
         <item>curiosity killed the cat</item>
         <item>speak to the devil</item>
@@ -105,7 +111,7 @@
         <item>peaks are deserve to try for</item>
     </string-array>
 
-    <!-- Placeholder/Test strings -->
+    <!-- Placeholder/Test strings kept for fragment scaffolding and preview builds. -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

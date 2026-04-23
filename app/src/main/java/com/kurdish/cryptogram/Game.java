@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Game activity handles the core gameplay logic, including puzzle generation, 
+ * Game activity handles the core gameplay logic, including puzzle generation,
  * user input validation, mistake tracking, and state persistence.
  */
 public class Game extends AppCompatActivity {
@@ -63,6 +63,11 @@ public class Game extends AppCompatActivity {
     private int currentLevelIndex = 0;
     // Flag to track if the hint button has been used for the current level.
     private boolean isHintUsed = false;
+
+    // NOTE ABOUT INDEXES:
+    // - selected_level intent extra is one-based (level 1, level 2, ...).
+    // - currentLevelIndex and hiddenIndices are zero-based because they map to String positions.
+    // This distinction is important when moving between UI labels and internal list access.
 
     /**
      * Initializes the activity, sets up the UI components, and loads the level data.
@@ -208,6 +213,8 @@ public class Game extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("GameState", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        // Prefix scopes all saved values to the currently open level.
+        // Example key: level_2_mistakes, level_2_inputs, etc.
         String prefix = "level_" + currentLevelIndex + "_";
 
         // Save numeric stats.
@@ -230,6 +237,8 @@ public class Game extends AppCompatActivity {
         editor.putString(prefix + "hiddenIndices", indicesBuilder.toString());
 
         // Serialize user inputs and their current text colors.
+        // Color persistence allows UI restore to preserve validation state:
+        // - white = pending, red = incorrect, green = correct, purple = hint-revealed.
         StringBuilder inputsBuilder = new StringBuilder();
         FlexboxLayout container = findViewById(R.id.area);
         for (Integer index : hiddenIndices) {
@@ -409,26 +418,32 @@ public class Game extends AppCompatActivity {
             int unlockedLevel = prefs.getInt("unlocked_level", 1);
             int playedLevel = currentLevelIndex + 1;
 
+            // Unlock the next level only if user just reached their frontier.
+            // This avoids lowering progress when replaying older levels.
             if (unlockedLevel <= playedLevel) {
                 prefs.edit().putInt("unlocked_level", playedLevel + 1).apply();
             }
-            // Transition to the Win overlay.
-            showGameWonFragment();
+
+            // Retrieve the full sentence and pass it to the Win overlay.
+            String[] levels = getResources().getStringArray(R.array.game_words);
+            showGameWonFragment(levels[currentLevelIndex]);
         }
     }
 
     /**
-     * Displays the Game Won fragment overlay and disables input.
+     * Displays the Game Won fragment overlay, passing the full sentence, and disables input.
      */
-    private void showGameWonFragment() {
+    private void showGameWonFragment(String fullSentence) {
         LinearLayout keyboard = findViewById(R.id.custom_keyboard);
         for (int i = 0; i < keyboard.getChildCount(); i++) {
+            // Freeze keyboard to prevent edits behind the overlay fragment.
             keyboard.getChildAt(i).setEnabled(false);
         }
 
         GameWon gameWonFragment = new GameWon();
         Bundle args = new Bundle();
         args.putInt("current_level_index", currentLevelIndex);
+        args.putString("full_sentence", fullSentence); // Passes the sentence to the fragment
         gameWonFragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
@@ -523,9 +538,17 @@ public class Game extends AppCompatActivity {
         hiddenLetters.clear();
         hiddenIndices.clear();
 
+        // --- NEW LOGIC: Pool of unique cipher numbers ---
+        // Create a list of available numbers (1-26) to act like a shuffled deck of cards.
+        List<Integer> availableCipherNumbers = new ArrayList<>();
+        for (int i = 1; i <= 26; i++) {
+            availableCipherNumbers.add(i);
+        }
+
         // Load saved state if it exists.
         SharedPreferences prefs = getSharedPreferences("GameState", MODE_PRIVATE);
         String prefix = "level_" + currentLevelIndex + "_";
+        // "cipherMap" presence is used as restore marker for this level state snapshot.
         boolean hasSavedGame = prefs.contains(prefix + "cipherMap");
 
         if (hasSavedGame) {
@@ -549,7 +572,11 @@ public class Game extends AppCompatActivity {
             for (String pair : mapStr.split(";")) {
                 if (pair.contains(":")) {
                     String[] kv = pair.split(":");
-                    cipherMap.put(kv[0].charAt(0), Integer.parseInt(kv[1]));
+                    int number = Integer.parseInt(kv[1]);
+                    cipherMap.put(kv[0].charAt(0), number);
+
+                    // Remove already used numbers from our pool so we do not duplicate ciphers.
+                    availableCipherNumbers.remove(Integer.valueOf(number));
                 }
             }
 
@@ -580,6 +607,7 @@ public class Game extends AppCompatActivity {
                 if(sentence.charAt(i) != ' ') allLetterIndices.add(i);
             }
             java.util.Collections.shuffle(allLetterIndices);
+            // Pick a randomized subset of positions to hide; the rest stay visible as anchors.
             List<Integer> indicesToHide = allLetterIndices.subList(0, Math.min(lettersToHide, allLetterIndices.size()));
 
             for (Integer idx : indicesToHide) {
@@ -587,6 +615,9 @@ public class Game extends AppCompatActivity {
                 hiddenLetters.add(Character.toLowerCase(sentence.charAt(idx)));
             }
         }
+
+        // Shuffle the remaining available numbers in our "deck"
+        java.util.Collections.shuffle(availableCipherNumbers);
 
         // Split sentence into words and create UI groups.
         String[] words = sentence.split(" ");
@@ -599,9 +630,15 @@ public class Game extends AppCompatActivity {
             for (int i = 0; i < word.length(); i++) {
                 char c = Character.toLowerCase(sentence.charAt(charPtr));
 
-                // Assign a random cipher number if the character doesn't have one yet.
+                // Assign a UNIQUE random cipher number if the character doesn't have one yet.
                 if (!cipherMap.containsKey(c)) {
-                    cipherMap.put(c, random.nextInt(26) + 1);
+                    if (!availableCipherNumbers.isEmpty()) {
+                        // Draw the next available unique number from the top of the shuffled deck
+                        cipherMap.put(c, availableCipherNumbers.remove(0));
+                    } else {
+                        // Fallback in case the sentence has more than 26 unique characters (e.g. punctuation)
+                        cipherMap.put(c, random.nextInt(100) + 27);
+                    }
                 }
                 int cipherNumber = cipherMap.get(c);
 
@@ -612,6 +649,8 @@ public class Game extends AppCompatActivity {
 
                 EditText letterInput = new EditText(this);
                 letterInput.setId(View.generateViewId());
+                // Tag stores absolute character index in the sentence so keyboard handlers
+                // can map this box back to hiddenIndices/hiddenLetters quickly.
                 letterInput.setTag(charPtr);
                 letterInput.setGravity(android.view.Gravity.CENTER);
                 letterInput.setTextColor(getResources().getColor(R.color.white, null));

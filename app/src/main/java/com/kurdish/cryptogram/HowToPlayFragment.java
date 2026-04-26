@@ -19,7 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-/**
+/** .
  * HowToPlayFragment:
  * - Displays an instructional manual for the game in a modal popup (Dialog) style.
  * - This fragment overlay helps users understand the game mechanics without leaving the Settings screen.

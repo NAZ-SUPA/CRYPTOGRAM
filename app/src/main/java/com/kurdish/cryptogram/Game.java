@@ -108,21 +108,21 @@ public class Game extends AppCompatActivity {
         ImageButton btnHint = findViewById(R.id.btn_hint);
         btnHint.setOnClickListener(v -> useHint());
 
-        // Retrieve the selected level index from the intent. Defaults to level 1.
+        // --- DATABASE LOGIC INITIALIZATION ---
         int selectedLevel = getIntent().getIntExtra("selected_level", 1);
+        DatabaseHelper dbHelper = new DatabaseHelper(this);
+
+        int totalDbLevels = dbHelper.getTotalLevelsCount();
+        if (selectedLevel > totalDbLevels) {
+            selectedLevel = totalDbLevels; // Cap at max available
+        }
         currentLevelIndex = selectedLevel - 1;
 
-        // Load the array of sentences/words used for the game levels.
-        String[] levels = getResources().getStringArray(R.array.game_words);
+        // Fetch sentence from DB (Single language)
+        String levelSentence = dbHelper.getSentenceForLevel(selectedLevel);
+        if (levelSentence == null || levelSentence.isEmpty()) levelSentence = "ERROR DB";
 
-        // Safety check to ensure the level index is within bounds.
-        if (currentLevelIndex >= levels.length) {
-            currentLevelIndex = levels.length - 1;
-        }
-
-        // Programmatically create the game UI based on the selected level's sentence.
-        CreateUI(levels[currentLevelIndex]);
-        // Initialize the custom on-screen keyboard.
+        CreateUI(levelSentence);
         setupKeyboard();
     }
 
@@ -143,12 +143,9 @@ public class Game extends AppCompatActivity {
         for (int i = 0; i < hiddenIndices.size(); i++) {
             int index = hiddenIndices.get(i);
             View view = container.findViewWithTag(index);
-
             if (view instanceof EditText) {
                 EditText et = (EditText) view;
-                if (et.isEnabled()) {
-                    availableHints.add(i);
-                }
+                if (et.isEnabled()) availableHints.add(i);
             }
         }
 
@@ -160,33 +157,26 @@ public class Game extends AppCompatActivity {
 
         // Mark hint as used.
         isHintUsed = true;
-
-        // Visual feedback: Disable and dim the hint button.
-        ImageButton btnHint = findViewById(R.id.btn_hint);
-        btnHint.setAlpha(0.4f);
-        btnHint.setEnabled(false);
+        findViewById(R.id.btn_hint).setAlpha(0.4f);
+        findViewById(R.id.btn_hint).setEnabled(false);
 
         // Select a random index from the list of available hints.
         int randomListIndex = availableHints.get(random.nextInt(availableHints.size()));
         int globalIndexToReveal = hiddenIndices.get(randomListIndex);
         char correctChar = hiddenLetters.get(randomListIndex);
 
-        // Find the specific EditText and reveal the correct character.
+        // Find the specific EditText and reveal the correct character in UPPERCASE.
         View viewToReveal = container.findViewWithTag(globalIndexToReveal);
         if (viewToReveal instanceof EditText) {
             EditText et = (EditText) viewToReveal;
-
-            et.setText(String.valueOf(correctChar));
-            // Style hint text differently (Purple).
+            // Set text as uppercase
+            et.setText(String.valueOf(Character.toUpperCase(correctChar)));
             et.setTextColor(android.graphics.Color.parseColor("#9C27B0"));
             et.setBackgroundColor(android.graphics.Color.TRANSPARENT);
-
-            // Disable the input box since it's now solved.
             et.setEnabled(false);
             et.setFocusable(false);
             et.setFocusableInTouchMode(false);
 
-            // Increment correct guesses and check if the player won.
             correctGuesses++;
             checkWinCondition();
         }
@@ -206,39 +196,30 @@ public class Game extends AppCompatActivity {
      * Persists the current level progress (mistakes, guesses, inputs) into SharedPreferences.
      */
     private void saveGameState() {
-        // Don't save if the level is already finished (won or lost).
-        if (mistakeCount >= 3 || correctGuesses == hiddenLetters.size()) {
-            return;
-        }
+        if (mistakeCount >= 3 || correctGuesses == hiddenLetters.size()) return;
 
         SharedPreferences prefs = getSharedPreferences("GameState", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        // Prefix scopes all saved values to the currently open level.
-        // Example key: level_2_mistakes, level_2_inputs, etc.
+
+        // Reverted to single-language prefix
         String prefix = "level_" + currentLevelIndex + "_";
 
-        // Save numeric stats.
         editor.putInt(prefix + "mistakes", mistakeCount);
         editor.putInt(prefix + "correct", correctGuesses);
         editor.putBoolean(prefix + "hintUsed", isHintUsed);
 
-        // Serialize the cipher map into a string.
         StringBuilder mapBuilder = new StringBuilder();
         for (Map.Entry<Character, Integer> entry : cipherMap.entrySet()) {
             mapBuilder.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
         }
         editor.putString(prefix + "cipherMap", mapBuilder.toString());
 
-        // Serialize hidden indices.
         StringBuilder indicesBuilder = new StringBuilder();
         for (Integer index : hiddenIndices) {
             indicesBuilder.append(index).append(";");
         }
         editor.putString(prefix + "hiddenIndices", indicesBuilder.toString());
 
-        // Serialize user inputs and their current text colors.
-        // Color persistence allows UI restore to preserve validation state:
-        // - white = pending, red = incorrect, green = correct, purple = hint-revealed.
         StringBuilder inputsBuilder = new StringBuilder();
         FlexboxLayout container = findViewById(R.id.area);
         for (Integer index : hiddenIndices) {
@@ -262,6 +243,7 @@ public class Game extends AppCompatActivity {
     private void clearGameState() {
         SharedPreferences prefs = getSharedPreferences("GameState", MODE_PRIVATE);
         String prefix = "level_" + currentLevelIndex + "_";
+
         prefs.edit()
                 .remove(prefix + "mistakes")
                 .remove(prefix + "correct")
@@ -280,12 +262,10 @@ public class Game extends AppCompatActivity {
         ImageView iv2 = findViewById(R.id.iv_mistake_2);
         ImageView iv3 = findViewById(R.id.iv_mistake_3);
 
-        // Reset all icons to default placeholders.
         iv1.setImageResource(R.drawable.circle_placeholder);
         iv2.setImageResource(R.drawable.circle_placeholder);
         iv3.setImageResource(R.drawable.circle_placeholder);
 
-        // Show crosses based on mistake count.
         if (mistakeCount >= 1) iv1.setImageResource(R.drawable.cross);
         if (mistakeCount >= 2) iv2.setImageResource(R.drawable.cross);
         if (mistakeCount >= 3) iv3.setImageResource(R.drawable.cross);
@@ -303,15 +283,9 @@ public class Game extends AppCompatActivity {
             android.content.SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("heart_count", currentHearts);
 
-            // If this was the first heart lost from a full set, start the renewal timer.
             if (currentHearts == 4) {
                 long startTime = System.currentTimeMillis();
                 editor.putLong("Heart_Renew_Start_Time", startTime);
-
-                // Log the scheduled time for debugging.
-                android.util.Log.d("HeartTest", "Alarm scheduled for: " + (startTime + (30 * 60 * 1000L)));
-
-                // Schedule a notification to remind the user when a heart is restored.
                 NotificationHelper.scheduleNextHeartNotification(this, startTime + (30 * 60 * 1000L));
             }
             editor.apply();
@@ -323,20 +297,12 @@ public class Game extends AppCompatActivity {
      */
     private void setupKeyboard() {
         LinearLayout keyboard = findViewById(R.id.custom_keyboard);
-
-        // Recursively assign listeners to all buttons in the keyboard layout.
         assignListenerToButtons(keyboard, v -> {
             String tag = (String) v.getTag();
-            if ("DEL".equals(tag)) {
-                handleDelete();
-            } else if ("ENT".equals(tag)) {
-                handleEnter();
-            } else if (tag != null) {
-                handleKeyPress(tag);
-            }
+            if ("DEL".equals(tag)) handleDelete();
+            else if ("ENT".equals(tag)) handleEnter();
+            else if (tag != null) handleKeyPress(tag);
         });
-
-        // Initialize state of the Enter button.
         updateEnterButtonState();
     }
 
@@ -348,8 +314,6 @@ public class Game extends AppCompatActivity {
         if (btnEnter == null) return;
 
         View focusedView = getCurrentFocus();
-
-        // Check if an enabled EditText is currently focused and has exactly one character.
         if (focusedView instanceof EditText && focusedView.isEnabled()) {
             EditText activeBox = (EditText) focusedView;
             if (activeBox.getText().toString().trim().length() == 1) {
@@ -358,8 +322,6 @@ public class Game extends AppCompatActivity {
                 return;
             }
         }
-
-        // Disable and dim the Enter button if conditions are not met.
         btnEnter.setEnabled(false);
         btnEnter.setAlpha(0.4f);
     }
@@ -381,13 +343,10 @@ public class Game extends AppCompatActivity {
                 if (listIndex != -1) {
                     char correctChar = hiddenLetters.get(listIndex);
 
-                    // Check if the user's guess matches the target letter.
                     if (userGuess.equalsIgnoreCase(String.valueOf(correctChar))) {
-                        // Mark as correct: disable input and change color to Green.
                         activeBox.setEnabled(false);
                         activeBox.setFocusable(false);
                         activeBox.setFocusableInTouchMode(false);
-
                         activeBox.setTextColor(android.graphics.Color.GREEN);
                         activeBox.setBackgroundColor(android.graphics.Color.TRANSPARENT);
 
@@ -395,7 +354,6 @@ public class Game extends AppCompatActivity {
                         checkWinCondition();
 
                     } else {
-                        // Mark as incorrect: change color to Red and increment mistake count.
                         activeBox.setTextColor(android.graphics.Color.RED);
                         handleMistake();
                     }
@@ -410,23 +368,20 @@ public class Game extends AppCompatActivity {
      */
     private void checkWinCondition() {
         if (correctGuesses == hiddenLetters.size()) {
-            // Clean up saved state for this level.
             clearGameState();
 
-            // Progress tracking: unlock the next level in SharedPreferences.
-            android.content.SharedPreferences prefs = getSharedPreferences("game_progress", MODE_PRIVATE);
+            SharedPreferences prefs = getSharedPreferences("game_progress", MODE_PRIVATE);
             int unlockedLevel = prefs.getInt("unlocked_level", 1);
             int playedLevel = currentLevelIndex + 1;
 
-            // Unlock the next level only if user just reached their frontier.
-            // This avoids lowering progress when replaying older levels.
             if (unlockedLevel <= playedLevel) {
                 prefs.edit().putInt("unlocked_level", playedLevel + 1).apply();
             }
 
-            // Retrieve the full sentence and pass it to the Win overlay.
-            String[] levels = getResources().getStringArray(R.array.game_words);
-            showGameWonFragment(levels[currentLevelIndex]);
+            // Retrieve DB Sentence
+            DatabaseHelper dbHelper = new DatabaseHelper(this);
+            String dbSentence = dbHelper.getSentenceForLevel(currentLevelIndex + 1);
+            showGameWonFragment(dbSentence);
         }
     }
 
@@ -436,14 +391,13 @@ public class Game extends AppCompatActivity {
     private void showGameWonFragment(String fullSentence) {
         LinearLayout keyboard = findViewById(R.id.custom_keyboard);
         for (int i = 0; i < keyboard.getChildCount(); i++) {
-            // Freeze keyboard to prevent edits behind the overlay fragment.
             keyboard.getChildAt(i).setEnabled(false);
         }
 
         GameWon gameWonFragment = new GameWon();
         Bundle args = new Bundle();
         args.putInt("current_level_index", currentLevelIndex);
-        args.putString("full_sentence", fullSentence); // Passes the sentence to the fragment
+        args.putString("full_sentence", fullSentence);
         gameWonFragment.setArguments(args);
 
         getSupportFragmentManager().beginTransaction()
@@ -459,7 +413,6 @@ public class Game extends AppCompatActivity {
         mistakeCount++;
         restoreMistakeUI();
 
-        // Check for Game Over condition (3 mistakes).
         if (mistakeCount >= 3) {
             clearGameState();
             deductHeart();
@@ -504,7 +457,8 @@ public class Game extends AppCompatActivity {
         View focusedView = getCurrentFocus();
         if (focusedView instanceof EditText && focusedView.isEnabled()) {
             EditText activeBox = (EditText) focusedView;
-            activeBox.setText(letter);
+            // Ensure any character inputted by the keyboard is uppercase
+            activeBox.setText(letter.toUpperCase());
             activeBox.setSelection(1);
             activeBox.setTextColor(getResources().getColor(R.color.white, null));
             updateEnterButtonState();
@@ -533,26 +487,21 @@ public class Game extends AppCompatActivity {
         container.removeAllViews();
         ImageButton btnHint = findViewById(R.id.btn_hint);
 
-        // Reset data structures for the new level.
         cipherMap.clear();
         hiddenLetters.clear();
         hiddenIndices.clear();
 
-        // --- NEW LOGIC: Pool of unique cipher numbers ---
-        // Create a list of available numbers (1-26) to act like a shuffled deck of cards.
         List<Integer> availableCipherNumbers = new ArrayList<>();
         for (int i = 1; i <= 26; i++) {
             availableCipherNumbers.add(i);
         }
 
-        // Load saved state if it exists.
         SharedPreferences prefs = getSharedPreferences("GameState", MODE_PRIVATE);
         String prefix = "level_" + currentLevelIndex + "_";
-        // "cipherMap" presence is used as restore marker for this level state snapshot.
+
         boolean hasSavedGame = prefs.contains(prefix + "cipherMap");
 
         if (hasSavedGame) {
-            // Restore progress from SharedPreferences.
             mistakeCount = prefs.getInt(prefix + "mistakes", 0);
             correctGuesses = prefs.getInt(prefix + "correct", 0);
 
@@ -567,30 +516,27 @@ public class Game extends AppCompatActivity {
 
             restoreMistakeUI();
 
-            // Deserialize the cipher map string.
             String mapStr = prefs.getString(prefix + "cipherMap", "");
             for (String pair : mapStr.split(";")) {
                 if (pair.contains(":")) {
                     String[] kv = pair.split(":");
                     int number = Integer.parseInt(kv[1]);
-                    cipherMap.put(kv[0].charAt(0), number);
-
-                    // Remove already used numbers from our pool so we do not duplicate ciphers.
+                    // Maintain map consistency using uppercase keys
+                    cipherMap.put(Character.toUpperCase(kv[0].charAt(0)), number);
                     availableCipherNumbers.remove(Integer.valueOf(number));
                 }
             }
 
-            // Deserialize hidden indices and identify target letters.
             String indicesStr = prefs.getString(prefix + "hiddenIndices", "");
             for (String idx : indicesStr.split(";")) {
                 if (!idx.trim().isEmpty()) {
                     int index = Integer.parseInt(idx);
                     hiddenIndices.add(index);
-                    hiddenLetters.add(Character.toLowerCase(sentence.charAt(index)));
+                    // Add to hidden letters as uppercase for evaluation consistency
+                    hiddenLetters.add(Character.toUpperCase(sentence.charAt(index)));
                 }
             }
         } else {
-            // Initialize fresh level state.
             mistakeCount = 0;
             correctGuesses = 0;
             isHintUsed = false;
@@ -598,7 +544,6 @@ public class Game extends AppCompatActivity {
             btnHint.setEnabled(true);
             restoreMistakeUI();
 
-            // Determine which letters to hide (approx. 40% of total letters).
             int totalLetters = sentence.replace(" ", "").length();
             int lettersToHide = (int) (totalLetters * 0.4);
 
@@ -607,19 +552,17 @@ public class Game extends AppCompatActivity {
                 if(sentence.charAt(i) != ' ') allLetterIndices.add(i);
             }
             java.util.Collections.shuffle(allLetterIndices);
-            // Pick a randomized subset of positions to hide; the rest stay visible as anchors.
             List<Integer> indicesToHide = allLetterIndices.subList(0, Math.min(lettersToHide, allLetterIndices.size()));
 
             for (Integer idx : indicesToHide) {
                 hiddenIndices.add(idx);
-                hiddenLetters.add(Character.toLowerCase(sentence.charAt(idx)));
+                // Ensure internal representation handles uppercase
+                hiddenLetters.add(Character.toUpperCase(sentence.charAt(idx)));
             }
         }
 
-        // Shuffle the remaining available numbers in our "deck"
         java.util.Collections.shuffle(availableCipherNumbers);
 
-        // Split sentence into words and create UI groups.
         String[] words = sentence.split(" ");
         int charPtr = 0;
 
@@ -628,64 +571,53 @@ public class Game extends AppCompatActivity {
             wordGroup.setOrientation(LinearLayout.HORIZONTAL);
 
             for (int i = 0; i < word.length(); i++) {
-                char c = Character.toLowerCase(sentence.charAt(charPtr));
+                // Read from sentence and force uppercase
+                char c = Character.toUpperCase(sentence.charAt(charPtr));
 
-                // Assign a UNIQUE random cipher number if the character doesn't have one yet.
                 if (!cipherMap.containsKey(c)) {
                     if (!availableCipherNumbers.isEmpty()) {
-                        // Draw the next available unique number from the top of the shuffled deck
                         cipherMap.put(c, availableCipherNumbers.remove(0));
                     } else {
-                        // Fallback in case the sentence has more than 26 unique characters (e.g. punctuation)
                         cipherMap.put(c, random.nextInt(100) + 27);
                     }
                 }
                 int cipherNumber = cipherMap.get(c);
 
-                // Create a vertical container for the letter input and its cipher number label.
                 LinearLayout boxContainer = new LinearLayout(this);
                 boxContainer.setOrientation(LinearLayout.VERTICAL);
                 boxContainer.setGravity(android.view.Gravity.CENTER);
 
                 EditText letterInput = new EditText(this);
                 letterInput.setId(View.generateViewId());
-                // Tag stores absolute character index in the sentence so keyboard handlers
-                // can map this box back to hiddenIndices/hiddenLetters quickly.
                 letterInput.setTag(charPtr);
                 letterInput.setGravity(android.view.Gravity.CENTER);
                 letterInput.setTextColor(getResources().getColor(R.color.white, null));
 
-                // Apply dynamic font size based on user settings.
                 SharedPreferences fontPrefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
                 int fontSetting = fontPrefs.getInt("font_size", 0);
                 float dynamicTextSize = 20f;
+                if (fontSetting == 1) dynamicTextSize = 24f;
+                else if (fontSetting == 2) dynamicTextSize = 28f;
 
-                if (fontSetting == 1) {
-                    dynamicTextSize = 24f;
-                } else if (fontSetting == 2) {
-                    dynamicTextSize = 28f;
-                }
                 letterInput.setTextSize(dynamicTextSize);
-
-                // Disable default soft keyboard as we use a custom one.
                 letterInput.setShowSoftInputOnFocus(false);
-                // Limit input to a single character.
-                letterInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-
-                // Listener to update Enter button state when focus changes.
+                // Enforce uppercase input formatting on the EditText itself
+                letterInput.setFilters(new InputFilter[]{
+                        new InputFilter.LengthFilter(1),
+                        new InputFilter.AllCaps()
+                });
                 letterInput.setOnFocusChangeListener((v, hasFocus) -> updateEnterButtonState());
 
-                // Create and style the cipher number label.
                 TextView numberLabel = new TextView(this);
                 numberLabel.setGravity(android.view.Gravity.CENTER);
                 numberLabel.setTextColor(getResources().getColor(R.color.white, null));
                 numberLabel.setTextSize(14);
                 numberLabel.setText(String.valueOf(cipherNumber));
 
-                // Decide if this box should be an input or a pre-filled hint letter.
                 if (hiddenIndices.contains(charPtr)) {
                     letterInput.setText("");
                 } else {
+                    // Populate revealed hints as uppercase
                     letterInput.setText(String.valueOf(c));
                     letterInput.setEnabled(false);
                     letterInput.setBackgroundColor(android.graphics.Color.TRANSPARENT);
@@ -694,7 +626,6 @@ public class Game extends AppCompatActivity {
                 boxContainer.addView(letterInput);
                 boxContainer.addView(numberLabel);
 
-                // Layout parameters for the individual box.
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(120, FlexboxLayout.LayoutParams.WRAP_CONTENT);
                 lp.setMargins(5, 5, 5, 5);
                 boxContainer.setLayoutParams(lp);
@@ -703,9 +634,8 @@ public class Game extends AppCompatActivity {
                 charPtr++;
             }
 
-            charPtr++; // Account for space between words.
+            charPtr++;
 
-            // Layout parameters for the word group within the Flexbox container.
             FlexboxLayout.LayoutParams wordParams = new FlexboxLayout.LayoutParams(
                     FlexboxLayout.LayoutParams.WRAP_CONTENT, FlexboxLayout.LayoutParams.WRAP_CONTENT);
             wordParams.setMargins(0, 0, 25, 20);
@@ -714,7 +644,6 @@ public class Game extends AppCompatActivity {
             container.addView(wordGroup);
         }
 
-        // Restore user's previous inputs and their validation status.
         if (hasSavedGame) {
             String inputsStr = prefs.getString(prefix + "inputs", "");
             for (String pair : inputsStr.split(";")) {
@@ -724,17 +653,15 @@ public class Game extends AppCompatActivity {
                     String letter = kv[1];
 
                     int color = getResources().getColor(R.color.white, null);
-                    if (kv.length >= 3) {
-                        color = Integer.parseInt(kv[2]);
-                    }
+                    if (kv.length >= 3) color = Integer.parseInt(kv[2]);
 
                     View view = container.findViewWithTag(idx);
                     if (view instanceof EditText) {
                         EditText et = (EditText) view;
-                        et.setText(letter);
+                        // Restore inputs as uppercase
+                        et.setText(letter.toUpperCase());
                         et.setTextColor(color);
 
-                        // If the letter was already correctly guessed or revealed by hint, lock it.
                         if (color == android.graphics.Color.GREEN || color == android.graphics.Color.parseColor("#9C27B0")) {
                             et.setEnabled(false);
                             et.setFocusable(false);

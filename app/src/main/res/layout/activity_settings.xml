@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Settings Activity Layout:
-    - Provides a user interface for configuring application preferences.
-    - Includes notification toggles, font size selection, and support contact options.
-    - Uses ConstraintLayout to organize multiple complex UI groups.
+    - This screen allows users to manage app preferences such as notifications and font sizes.
+    - Uses ConstraintLayout for a clean, organized arrangement of settings controls.
+    - Dark theme background consistent with the overall app aesthetic.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,9 +15,9 @@
     android:padding="24dp">
 
     <!--
-        Settings Screen Title:
-        - Large display text "SETTINGS".
-        - Uses the 'Iceberg' custom font for branding consistency.
+        Screen Title:
+        - Large heading "SETTINGS" using the Iceberg font.
+        - Centered at the top of the screen.
     -->
     <TextView
         android:id="@+id/tv_title"
@@ -34,7 +34,7 @@
 
     <!--
         Notifications Label:
-        - Small label text identifying the notification toggle section.
+        - Indicates the purpose of the adjacent toggle switch.
     -->
     <TextView
         android:id="@+id/label_notif"
@@ -51,8 +51,8 @@
 
     <!--
         Notification Toggle Container:
-        - A MaterialCardView used as a capsule for the ON/OFF buttons.
-        - Provides a modern, rounded aesthetic with a stroke border.
+        - A rounded MaterialCardView used to house the ON/OFF toggle buttons.
+        - Creates a segmented control visual effect.
     -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/notif_container"
@@ -74,8 +74,8 @@
             android:orientation="horizontal">
 
             <!--
-                Notification "ON" Button:
-                - State and color are managed dynamically in Settings.java.
+                ON Toggle Button:
+                - Highlighted when notifications are enabled.
             -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle_on"
@@ -96,8 +96,8 @@
                 app:cornerRadius="0dp"/>
 
             <!--
-                Notification "OFF" Button:
-                - Mutually exclusive with the "ON" button.
+                OFF Toggle Button:
+                - Highlighted when notifications are disabled.
             -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/toggle_off"
@@ -117,7 +117,7 @@
                 app:backgroundTint="#4A4D58"
                 app:cornerRadius="0dp"/>
 
-            <!-- Central divider line -->
+            <!-- Small vertical divider between toggles -->
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
@@ -126,9 +126,8 @@
     </com.google.android.material.card.MaterialCardView>
 
     <!--
-        How to Play Button:
-        - Triggers the HowToPlayFragment popup.
-        - Large white button with rounded corners for high visibility.
+        How To Play Button:
+        - Opens the instructional modal (HowToPlayFragment).
     -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_how_to_play"
@@ -149,8 +148,7 @@
 
     <!--
         Font Size Selection Card:
-        - A white card housing options to change the game's text size.
-        - Provides a logical grouping for the font settings.
+        - A white card containing options to scale the game text.
     -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/font_box"
@@ -173,7 +171,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Font section title -->
+            <!-- Font Selection Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -183,10 +181,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold"/>
 
-            <!--
-                Horizontal group of font size presets.
-                - Buttons (f_x1, f_x15, f_x2) allow users to select Small, Medium, or Large text.
-            -->
+            <!-- Row of font size options (x1, x1.5, x2) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,6 +189,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
+                <!-- Small font option -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/f_x1"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -208,6 +204,7 @@
                     app:backgroundTint="#D1C4E9"
                     app:cornerRadius="25dp"/>
 
+                <!-- Medium font option -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/f_x15"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -223,6 +220,7 @@
                     app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="25dp"/>
 
+                <!-- Large font option -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/f_x2"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
@@ -241,8 +239,8 @@
     </com.google.android.material.card.MaterialCardView>
 
     <!--
-        Contact Support Button:
-        - Triggers an email intent to support.
+        Email Support Button:
+        - Triggers a mailto intent to the developer.
     -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_email"
@@ -262,8 +260,8 @@
         app:layout_constraintBottom_toTopOf="@id/btn_back_home"/>
 
     <!--
-        Home Button:
-        - Navigates back to the Main Menu.
+        Back to Home Button:
+        - Returns the user to the main menu screen.
     -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_back_home"
@@ -284,7 +282,8 @@
 
     <!--
         Fragment Container:
-        - A placeholder for displaying fragment-based overlays (like instructions).
+        - Used to host the HowToPlayFragment overlay.
+        - Initially hidden (gone) until the instruction button is clicked.
     -->
     <FrameLayout
         android:id="@+id/fragment_container"

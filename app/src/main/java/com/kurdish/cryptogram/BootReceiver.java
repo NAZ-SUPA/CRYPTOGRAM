@@ -1,3 +1,4 @@
+
 /**
  * Package declaration for the Kurdish Cryptogram application.
  */
@@ -42,16 +43,16 @@ class BootReceiver extends BroadcastReceiver {
         // We only need to re-register an alarm if the hearts were not already full and a timer was active.
         if (currentHearts < 5 && startTime != -1) {
             // Define the heart regeneration interval (30 minutes).
-            final long REGEN_INTERVAL = 30 * 60 * 1000L; 
-            
+            final long REGEN_INTERVAL = 30 * 60 * 1000L;
+
             // Calculate how much real-world time has passed since the timer first started.
-            long elapsed = System.currentTimeMillis() - startTime; 
-            
+            long elapsed = System.currentTimeMillis() - startTime;
+
             // Determine how many heart increments should have occurred during the elapsed time (including downtime).
-            int heartsRegenerated = (int) (elapsed / REGEN_INTERVAL); 
-            
+            int heartsRegenerated = (int) (elapsed / REGEN_INTERVAL);
+
             // Calculate the exact timestamp when the NEXT incremental heart should be granted.
-            long nextTrigger = startTime + ((heartsRegenerated + 1) * REGEN_INTERVAL); 
+            long nextTrigger = startTime + ((heartsRegenerated + 1) * REGEN_INTERVAL);
 
             // --- EDGE CASE HANDLING ---
             // If the calculated next heart time is in the past (e.g., it expired while the phone was off),

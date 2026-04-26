@@ -41,7 +41,9 @@ public class GameOver extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // --- UI INFLATION ---
         // Inflate the 'fragment_game_over' layout file into a View object.
+        // This layout contains the "GAME OVER" message and navigation buttons.
         View view = inflater.inflate(R.layout.fragment_game_over, container, false);
 
         // --- REPLAY BUTTON SETUP ---
@@ -50,25 +52,26 @@ public class GameOver extends Fragment {
         
         // Define click behavior for the Replay button with resource check (Gatekeeper logic).
         btnReplay.setOnClickListener(v -> {
-            // Ensure the fragment is currently attached to an Activity.
+            // Ensure the fragment is currently attached to an Activity before accessing Context.
             if (getActivity() != null) {
                 // Access shared preferences to check the current heart count.
                 SharedPreferences prefs = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                 int hearts = prefs.getInt("heart_count", 5);
 
+                // --- LIFE VERIFICATION ---
                 // Check if the player has at least one heart to start a new session.
                 if (hearts > 0) {
                     // CASE: Enough hearts available.
                     // Create an intent to restart the Game activity.
                     Intent intent = new Intent(getActivity(), Game.class);
-                    // Clear the task stack to start a fresh game instance.
+                    // Clear the task stack to start a fresh game instance (resetting progress for this level).
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    // Close the current activity.
+                    // Close the current activity so it's removed from the back stack.
                     getActivity().finish();
                 } else {
                     // CASE: No hearts left.
-                    // Notify the user of the resource shortage.
+                    // Notify the user of the resource shortage via a Toast message.
                     Toast.makeText(getActivity(), "Out of hearts!", Toast.LENGTH_SHORT).show();
                     // Forced navigation to the Main Menu since the game cannot be played.
                     Intent intent = new Intent(getActivity(), MainMenu.class);
@@ -88,7 +91,7 @@ public class GameOver extends Fragment {
             if (getActivity() != null) {
                 // Create intent to transition to the MainMenu activity.
                 Intent intent = new Intent(getActivity(), MainMenu.class);
-                // Clear the back stack to prevent navigating back to this screen.
+                // Clear the back stack to prevent navigating back to this failure screen.
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 // Close the current activity.
@@ -100,3 +103,4 @@ public class GameOver extends Fragment {
         return view;
     }
 }
+

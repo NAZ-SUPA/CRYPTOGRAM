@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Main Menu Layout Root:
-    - Uses ConstraintLayout for flexible positioning of navigation elements.
-    - Features a dark background consistent with the app's visual theme.
+    - This is the primary navigation hub of the CRYPTOGRAM application.
+    - Uses ConstraintLayout to allow flexible and complex positioning of interactive elements.
+    - The background color #303240 is the standard dark theme color for the app.
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,9 +16,9 @@
 
     <!--
         Settings Button:
-        - Positioned at the top right corner.
-        - Uses a transparent background for a modern icon-only appearance.
-        - Triggers the transition to the Settings activity.
+        - An ImageButton located at the top-right corner of the screen.
+        - Triggers a navigation event to the Settings activity.
+        - Uses 'selectableItemBackgroundBorderless' for a subtle, circular ripple effect when tapped.
     -->
     <ImageButton
         android:id="@+id/btn_settings_main"
@@ -34,9 +35,10 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <!--
-        Life Status Container (Capsule):
-        - A visual backdrop for the heart icon, heart count, and regeneration timer.
-        - Anchored to the heart_life_1 icon to maintain alignment.
+        Life Status Capsule (Background):
+        - A decorative View that provides a visual border/background for the heart status section.
+        - Uses the @drawable/heart_rectangle to achieve a rounded/capsule appearance.
+        - Dynamically constrained to surround the heart icon and the status text.
     -->
     <View
         android:id="@+id/life_background_capsule"
@@ -51,9 +53,10 @@
         app:layout_constraintTop_toTopOf="@+id/heart_life_1" />
 
     <!--
-        Heart Icon:
-        - Illustrative icon representing player lives.
-        - Serves as the visual anchor for the life-tracking UI group.
+        Heart Icon (Visual):
+        - A large ImageView displaying a red heart.
+        - Serves as the visual representation of the player's "lives".
+        - Positioned in the top-left corner as a primary status indicator.
     -->
     <ImageView
         android:id="@+id/heart_life_1"
@@ -67,9 +70,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--
-        Regeneration Timer / Status Label:
-        - Displays the countdown until the next heart (e.g., "29:59") or "FULL".
-        - Managed dynamically by MainMenu.java.
+        Heart Regeneration Status/Timer:
+        - A TextView that displays either "FULL" or a countdown (MM:SS) until the next heart is restored.
+        - The style "@style/full" defines its typography.
+        - Its text is updated programmatically by the CountDownTimer in MainMenu.java.
     -->
     <TextView
         android:id="@+id/tv_full_lives"
@@ -86,9 +90,10 @@
         android:layout_marginStart="8dp" />
 
     <!--
-        Life Count Overlay:
-        - Displays the numeric value of current lives (e.g., "5") directly over the heart icon.
-        - Centers itself within the heart_life_1 bounds.
+        Heart Count Overlay:
+        - A TextView placed directly over the heart icon.
+        - Displays the current numeric heart count (e.g., "5").
+        - This creates an integrated UI look where the number appears inside the heart.
     -->
     <TextView
         android:id="@+id/tv_life_count"
@@ -106,9 +111,9 @@
         tools:ignore="SpUsage,TextSizeCheck" />
 
     <!--
-        Central Branding Frame:
-        - A decorative black rectangle that houses category labels.
-        - Provides a visual center of gravity for the menu design.
+        Central Branding Card:
+        - A black decorative rectangle that serves as the backdrop for the game category labels.
+        - Provides a visual anchor in the center of the menu.
     -->
     <View
         android:id="@+id/main_menu_card"
@@ -123,9 +128,8 @@
         app:layout_constraintVertical_bias="0.232" />
 
     <!--
-        Decorative Label Group (Focus, English, Puzzle):
-        - These are non-interactive UI elements.
-        - They serve to categorize the "type" of game and enhance the visual style.
+        "FOCUS" Category Label Background:
+        - A mint-colored capsule indicating the "Focus" aspect of the game.
     -->
     <View
         android:id="@+id/mint_decorative_capsule"
@@ -141,6 +145,7 @@
         app:layout_constraintTop_toTopOf="@+id/main_menu_card"
         app:layout_constraintVertical_bias="0.455" />
 
+    <!-- "FOCUS" Text Label -->
     <TextView
         android:id="@+id/tv_label_focus"
         style="@style/focus"
@@ -153,6 +158,7 @@
         app:layout_constraintStart_toStartOf="@+id/mint_decorative_capsule"
         app:layout_constraintTop_toTopOf="@+id/mint_decorative_capsule" />
 
+    <!-- "ENGLISH" Category Label Background -->
     <View
         android:id="@+id/green_decorative_capsule_2"
         android:layout_width="148dp"
@@ -165,6 +171,7 @@
         app:layout_constraintTop_toTopOf="@+id/mint_decorative_capsule"
         android:layout_marginStart="10dp" />
 
+    <!-- "ENGLISH" Text Label -->
     <TextView
         android:id="@+id/tv_label_english"
         style="@style/english"
@@ -177,6 +184,7 @@
         app:layout_constraintStart_toStartOf="@+id/green_decorative_capsule_2"
         app:layout_constraintTop_toTopOf="@+id/green_decorative_capsule_2" />
 
+    <!-- "PUZZLE" Category Label Background -->
     <View
         android:id="@+id/purple_decorative_capsule"
         android:layout_width="148dp"
@@ -188,6 +196,7 @@
         app:layout_constraintEnd_toEndOf="@+id/green_decorative_capsule_2"
         android:layout_marginTop="15dp" />
 
+    <!-- "PUZZLE" Text Label -->
     <TextView
         android:id="@+id/tv_label_puzzle"
         style="@style/puzzle"
@@ -201,10 +210,9 @@
         app:layout_constraintTop_toTopOf="@+id/purple_decorative_capsule" />
 
     <!--
-        Play Game Button:
-        - Primary call-to-action for the menu.
-        - Triggers navigation to the Game activity.
-        - Uses a custom drawable '@drawable/play_rectangle' for styling.
+        Primary Play Action Button:
+        - A stylized ImageButton that triggers the main game activity.
+        - Uses the @drawable/play_rectangle for a branded, colorful appearance.
     -->
     <ImageButton
         android:id="@+id/btn_main_action"
@@ -220,7 +228,11 @@
         app:layout_constraintTop_toBottomOf="@+id/purple_decorative_capsule"
         tools:ignore="RedundantDescriptionCheck" />
 
-    <!-- Label overlaid on the Play button -->
+    <!--
+        "PLAY" Text Overlay:
+        - Floating text on top of the Play button.
+        - Elevation is set to 12dp to ensure it sits visually above the button background.
+    -->
     <TextView
         android:id="@+id/tv_label_play"
         style="@style/play"
@@ -236,9 +248,9 @@
         app:layout_constraintTop_toTopOf="@+id/btn_main_action" />
 
     <!--
-        Select Levels Button:
-        - Secondary navigation button.
-        - Triggers navigation to the Level selection screen.
+        "LEVELS" Navigation Button:
+        - Navigates the user to the level selection grid.
+        - Uses the @drawable/levels_rectangle for styling.
     -->
     <ImageButton
         android:id="@+id/btn_levels"
@@ -253,7 +265,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_main_action"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <!-- Label overlaid on the Levels button -->
+    <!-- "LEVELS" Text Overlay -->
     <TextView
         android:id="@+id/tv_label_levels"
         style="@style/levels"
@@ -269,3 +281,4 @@
         app:layout_constraintTop_toTopOf="@+id/btn_levels" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

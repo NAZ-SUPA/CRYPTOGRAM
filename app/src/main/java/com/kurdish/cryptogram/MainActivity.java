@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Enable edge-to-edge display to utilize the full screen area including behind system bars.
         EdgeToEdge.enable(this);
-        
+
         // Set the user interface layout for this activity from the XML resource.
         setContentView(R.layout.activity_main);
 

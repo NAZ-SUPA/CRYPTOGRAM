@@ -4,7 +4,7 @@
 package com.kurdish.cryptogram;
 
 /**
- * Standard Android imports for navigation, data persistence, and UI components.
+ * Standard Android imports for navigation, data persistence, and UI handling.
  */
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * AndroidX compatibility imports.
+ * AndroidX components for modern activity lifecycle and edge-to-edge UI.
  */
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,91 +24,86 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 /**
- * MainMenu Activity:
- * - Provides the primary navigation hub of the application.
- * - Manages the life (heart) regeneration system and its associated UI timer.
- * - Handles transitions to Game, Levels, and Settings screens.
+ * MainMenu:
+ * - Serves as the primary navigation hub of the application.
+ * - Handles the logic for the player's "Life" (Heart) regeneration system.
+ * - Manages transitions to Game, Levels, and Settings activities.
  */
 public class MainMenu extends AppCompatActivity {
 
-    // Constant defining the heart regeneration interval (30 minutes).
+    // --- SYSTEM CONSTANTS ---
+    // Defines the duration for a single heart to regenerate (30 minutes).
     private static final long THIRTY_MINUTES_IN_MILLIS = 30 * 60 * 1000L;
-
-    // Timer object to update the countdown UI in real-time.
+    
+    // --- STATE VARIABLES ---
+    // A timer used to update the countdown UI on the main menu.
     private CountDownTimer heartTimer;
-    // Cached heart count for UI updates.
+    // Cached value of the player's current heart count.
     private int latestHeartCount;
-    // Cached start time of the current regeneration cycle.
+    // Cached timestamp of when the current regeneration cycle started.
     private long latestStartTime;
 
-    // SharedPreferences file names and keys used by the heart/progress systems.
-    // Centralizing these values as constants reduces typo risk across methods.
-    private static final String PREF_HEARTS = "MyPrefs";
-    private static final String KEY_HEART_COUNT = "heart_count";
-    private static final String KEY_HEART_RENEW_START_TIME = "Heart_Renew_Start_Time";
-
     /**
-     * Initializes the activity and sets up navigation button listeners.
+     * Called when the activity is first created.
+     * Sets up click listeners and initial UI state.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Standard activity lifecycle setup.
+        // Initialize activity state.
         super.onCreate(savedInstanceState);
-
-        // Enable edge-to-edge layout for immersive experience.
+        // Enable modern edge-to-edge display.
         EdgeToEdge.enable(this);
-        // Set the layout for the main menu.
+        // Load the XML layout.
         setContentView(R.layout.activity_main_menu);
 
-        // Adjust padding to accommodate system bars (status/navigation).
+        // Adjust layout padding to account for system bars (status/navigation).
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // --- PLAY BUTTON SETUP ---
+        // --- PLAY BUTTON LOGIC ---
+        // Transitions to the last unlocked level.
         ImageButton btnPlay = findViewById(R.id.btn_main_action);
         btnPlay.setOnClickListener(v -> {
-            // Check current heart count before allowing the user to start a game.
-            SharedPreferences prefs = getSharedPreferences(PREF_HEARTS, MODE_PRIVATE);
-            int hearts = prefs.getInt(KEY_HEART_COUNT, 5);
+            // Check current heart count before allowing gameplay.
+            SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            int hearts = prefs.getInt("heart_count", 5);
 
             if (hearts > 0) {
-                // Retrieve the highest unlocked level from progress SharedPreferences.
+                // Determine the furthest level reached by the user.
                 SharedPreferences progressPrefs = getSharedPreferences("game_progress", MODE_PRIVATE);
                 int highestLevel = progressPrefs.getInt("unlocked_level", 1);
 
-                // Create the intent and pass the highest level to the Game activity.
+                // Start the Game activity with the calculated level.
                 Intent gameIntent = new Intent(MainMenu.this, Game.class);
                 gameIntent.putExtra("selected_level", highestLevel);
-
-                // Proceed to Game activity if at least one heart is available.
                 startActivity(gameIntent);
             } else {
-                // Block entry and notify user if out of lives.
+                // Inform user that they must wait for hearts to regenerate.
                 Toast.makeText(MainMenu.this, "No hearts left! Please wait.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // --- LEVELS BUTTON SETUP ---
+        // --- LEVELS BUTTON LOGIC ---
+        // Navigates to the stage selection screen.
         ImageButton btnLevels = findViewById(R.id.btn_levels);
         btnLevels.setOnClickListener(v -> {
-            // Navigate to the Level selection screen.
             startActivity(new Intent(MainMenu.this, Levels.class));
         });
 
-        // --- SETTINGS BUTTON SETUP ---
+        // --- SETTINGS BUTTON LOGIC ---
+        // Navigates to the application configuration screen.
         ImageButton btnSettings = findViewById(R.id.btn_settings_main);
         btnSettings.setOnClickListener(v -> {
-            // Navigate to the Settings screen.
             startActivity(new Intent(MainMenu.this, Settings.class));
         });
     }
 
     /**
-     * Called when the activity returns to the foreground.
-     * Ensures the heart count and timers are synchronized with current time.
+     * Triggered when the user returns to the Main Menu.
+     * Ensures the heart count and timers are up to date.
      */
     @Override
     protected void onResume() {
@@ -118,57 +113,58 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * Updates the heart count display and manages the visibility of the countdown timer.
+     * Updates all UI elements related to the heart/life system.
      */
     private void refreshHeartUI() {
-        // Execute the background logic to calculate regeneration progress.
+        // Perform backend calculations for time-based restoration.
         HeartCalculationLogic();
-
-        // Locate UI components for life display.
+        
+        // Find UI components.
         TextView tvTimer = findViewById(R.id.tv_full_lives);
         TextView tvLifeCount = findViewById(R.id.tv_life_count);
 
-        // Set the numeric count of current hearts.
+        // Update the numeric life counter.
         tvLifeCount.setText(String.valueOf(latestHeartCount));
 
-        // If hearts are not full, start or resume the visual countdown timer.
+        // Start a visible countdown if hearts are regenerating, otherwise show "FULL".
         if (latestStartTime != -1 && latestHeartCount < 5) {
             startUiTimer(latestStartTime, tvTimer);
         } else {
-            // Show "FULL" text if player has maximum lives.
             tvTimer.setText(R.string.full);
         }
     }
 
     /**
-     * Core logic for calculating heart regeneration based on elapsed time.
-     * Updates SharedPreferences and manages system-wide notifications.
+     * CORE LOGIC: Heart Restoration System
+     * - Calculates how many hearts should have been restored based on real-world time.
+     * - Updates persistent storage (SharedPreferences) with new counts.
+     * - Manages regeneration start times and background notifications.
      */
     public void HeartCalculationLogic() {
-        // Reads and mutates persistent heart state so it survives app restarts.
-        SharedPreferences sharedPreferences = getSharedPreferences(PREF_HEARTS, MODE_PRIVATE);
+        // Access shared preferences for storage.
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        // Retrieve saved regeneration metadata.
-        long heartRenewStartTime = sharedPreferences.getLong(KEY_HEART_RENEW_START_TIME, -1);
-        int heartCount = sharedPreferences.getInt(KEY_HEART_COUNT, 5);
+        // Retrieve current state.
+        long heartRenewStartTime = sharedPreferences.getLong("Heart_Renew_Start_Time", -1);
+        int heartCount = sharedPreferences.getInt("heart_count", 5);
 
         // CASE 1: Hearts are already full.
         if (heartCount >= 5) {
             latestHeartCount = heartCount;
             latestStartTime = -1;
-            // Cancel any pending "heart restored" notifications.
+            // Clear any lingering restoration notifications.
             NotificationHelper.cancelNotification(this);
             return;
         }
 
-        // CASE 2: No timer is active, but hearts aren't full. Start a new cycle.
+        // CASE 2: Restoration timer was not active, start it now.
         if (heartRenewStartTime == -1) {
             heartRenewStartTime = System.currentTimeMillis();
-            editor.putLong(KEY_HEART_RENEW_START_TIME, heartRenewStartTime);
+            editor.putLong("Heart_Renew_Start_Time", heartRenewStartTime);
             editor.apply();
 
-            // Schedule the first notification alarm for 30 minutes from now.
+            // Schedule a notification for 30 minutes from now.
             long firstAlarm = heartRenewStartTime + THIRTY_MINUTES_IN_MILLIS;
             NotificationHelper.scheduleNextHeartNotification(this, firstAlarm);
 
@@ -177,31 +173,31 @@ public class MainMenu extends AppCompatActivity {
             return;
         }
 
-        // CASE 3: Timer is active. Calculate how many 30-minute intervals have passed since last check.
+        // CASE 3: Timer is active, calculate how much time has passed since start.
         long elapsed = System.currentTimeMillis() - heartRenewStartTime;
+        // Increment hearts for every 30-minute block that has passed.
         while (elapsed >= THIRTY_MINUTES_IN_MILLIS && heartCount < 5) {
-            // Catch-up loop: grants all hearts that should have regenerated while app was away.
             heartCount++;
             elapsed -= THIRTY_MINUTES_IN_MILLIS;
-            heartRenewStartTime += THIRTY_MINUTES_IN_MILLIS; // Move start time forward by intervals.
+            heartRenewStartTime += THIRTY_MINUTES_IN_MILLIS;
         }
 
-        // Handle final state after catch-up calculation.
+        // FINAL STATE UPDATE:
         if (heartCount >= 5) {
-            // All hearts successfully restored. Reset state.
-            editor.putInt(KEY_HEART_COUNT, 5);
-            editor.putLong(KEY_HEART_RENEW_START_TIME, -1);
+            // Cap at 5 hearts and stop the timer.
+            editor.putInt("heart_count", 5);
+            editor.putLong("Heart_Renew_Start_Time", -1);
             editor.apply();
             NotificationHelper.cancelNotification(this);
             latestHeartCount = 5;
             latestStartTime = -1;
         } else {
-            // Hearts still regenerating. Save partial progress.
-            editor.putInt(KEY_HEART_COUNT, heartCount);
-            editor.putLong(KEY_HEART_RENEW_START_TIME, heartRenewStartTime);
+            // Save current count and the updated (incremented) start time.
+            editor.putInt("heart_count", heartCount);
+            editor.putLong("Heart_Renew_Start_Time", heartRenewStartTime);
             editor.apply();
 
-            // Reschedule notification for the next incremental heart restoration.
+            // Reschedule the notification for the next incremental heart.
             long nextAlarm = heartRenewStartTime + THIRTY_MINUTES_IN_MILLIS;
             NotificationHelper.scheduleNextHeartNotification(this, nextAlarm);
 
@@ -211,45 +207,52 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * Starts a CountDownTimer to update the "mm:ss" display on the main menu.
+     * Initializes a visible countdown timer for the user interface.
      * @param targetTimestamp The timestamp when the current regeneration cycle started.
-     * @param timerTextView The TextView where the countdown should be displayed.
+     * @param timerTextView The TextView where the countdown (MM:SS) will be displayed.
      */
     private void startUiTimer(long targetTimestamp, TextView timerTextView) {
-        // Cancel existing timer to avoid overlaps.
+        // Cancel any existing UI timer to prevent overlaps.
         if (heartTimer != null) heartTimer.cancel();
 
-        // Calculate remaining milliseconds until the next heart is restored.
+        // Calculate how much time is left in the current 30-minute cycle.
         long millisInFuture = (targetTimestamp + THIRTY_MINUTES_IN_MILLIS) - System.currentTimeMillis();
 
-        // If time already passed, refresh the whole UI state.
+        // If the cycle should have already finished, refresh the whole UI logic.
         if (millisInFuture <= 0) {
             refreshHeartUI();
             return;
         }
 
-        // Initialize and start the Android CountDownTimer.
+        // Start a 1-second interval countdown timer.
         heartTimer = new CountDownTimer(millisInFuture, 1000) {
+            /**
+             * Triggered on every tick (1 second).
+             * @param millisUntilFinished Remaining time in milliseconds.
+             */
             @Override
             public void onTick(long millisUntilFinished) {
-                // Convert remaining milliseconds to minutes and seconds.
+                // Convert total milliseconds to minutes and seconds format.
                 long minutes = (millisUntilFinished / 1000) / 60;
                 long seconds = (millisUntilFinished / 1000) % 60;
-                // Update the text view with formatted time.
+                // Update the UI label.
                 timerTextView.setText(String.format("%02d:%02d", minutes, seconds));
             }
 
+            /**
+             * Triggered when the 30-minute cycle finishes.
+             */
             @Override
             public void onFinish() {
-                // Refresh UI when the timer hits zero to increment heart count.
+                // Re-trigger the whole calculation logic to grant the heart and restart the cycle if needed.
                 refreshHeartUI();
             }
         }.start();
     }
 
     /**
-     * Called when the activity is no longer visible.
-     * Stops the timer to save system resources.
+     * Triggered when the activity is no longer visible.
+     * Stops the UI timer to conserve battery and CPU resources.
      */
     @Override
     protected void onStop() {

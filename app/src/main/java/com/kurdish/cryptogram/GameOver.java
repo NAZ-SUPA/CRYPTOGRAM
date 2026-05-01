@@ -62,12 +62,15 @@ public class GameOver extends Fragment {
                 // Check if the player has at least one heart to start a new session.
                 if (hearts > 0) {
                     // CASE: Enough hearts available.
-                    // Create an intent to restart the Game activity.
+                    // FIX: Get the Intent that originally started this game to find the current level
+                    int currentLevel = getActivity().getIntent().getIntExtra("selected_level", 1);
+
                     Intent intent = new Intent(getActivity(), Game.class);
-                    // Clear the task stack to start a fresh game instance (resetting progress for this level).
+                    // FIX: Pass the level back into the new intent!
+                    intent.putExtra("selected_level", currentLevel);
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    // Close the current activity so it's removed from the back stack.
                     getActivity().finish();
                 } else {
                     // CASE: No hearts left.

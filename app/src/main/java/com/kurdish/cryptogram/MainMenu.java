@@ -148,7 +148,6 @@ public class MainMenu extends AppCompatActivity {
         // Retrieve current state.
         long heartRenewStartTime = sharedPreferences.getLong("Heart_Renew_Start_Time", -1);
         int heartCount = sharedPreferences.getInt("heart_count", 5);
-
         // CASE 1: Hearts are already full.
         if (heartCount >= 5) {
             latestHeartCount = heartCount;

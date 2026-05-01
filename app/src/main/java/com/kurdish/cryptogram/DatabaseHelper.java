@@ -83,7 +83,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         insertLevel(db, "CURIOSITY KILLED THE CAT");
         insertLevel(db, "SPEAK TO THE DEVIL");
         insertLevel(db, "LET BYGONE BE BYGONE");
-        insertLevel(db, "TIME IS MONEY");
         insertLevel(db, "PEAKS ARE DESERVE TO TRY FOR");
     }
 
